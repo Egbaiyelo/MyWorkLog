@@ -12,10 +12,10 @@
                 "*://*.myworkdayjobs.com/*"
             ],
             "js": [
-                "content.js"
+                "dist/content.bundle.js"
             ],
-            "run_at": "document_idle",
-            "type": "module"
+            "type": "module",
+            "run_at": "document_idle"
         }
     ],
     "permissions": [
@@ -32,7 +32,8 @@
         {
             "resources": [
                 "icons/*",
-                "pages/*"
+                "pages/*",
+                "files/*"
             ],
             "matches": [
                 "<all_urls>"

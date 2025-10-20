@@ -1,8 +1,8 @@
 {
     "manifest_version": 3,
-    "name": "MyWorkday-dev-0.0",
+    "name": "MyWorkLog-dev-0.0",
     "version": "0.1.0",
-    "description": "testing",
+    "description": "testing myWorkLog",
     "background": {
         "service_worker": "background.js"
     },

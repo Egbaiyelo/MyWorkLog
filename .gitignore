@@ -32,3 +32,4 @@ data.json
 *.log
 html-snapshots/
 
+**/test-site/*

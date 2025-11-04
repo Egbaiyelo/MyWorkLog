@@ -167,3 +167,19 @@ export function createAccountHelper(helperText, onClickHandler) {
 
     return container;
 }
+
+// Adds link to home page
+//! Expects utilitybuttonbar to be present
+export function AddLinkToHome(utilityButtonBar, targetColor) {
+    const { targetButtonDiv, barDivider } = createHomeLink(targetColor);
+    // console.log(targetButtonDiv, barDivider)
+    // console.log('then', utilityButtonBar)
+
+    //- Probably use mutation observer somehow to make sure its the last element
+    if (utilityButtonBar) {
+        // console.log("inserting utility button bar")
+        // console.log({ "utilitybuttonbar I got": utilityButtonBar })
+        utilityButtonBar.insertBefore(barDivider, null);
+        utilityButtonBar.insertBefore(targetButtonDiv, null);
+    }
+}

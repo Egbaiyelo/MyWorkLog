@@ -21,6 +21,7 @@ import { addSite, startNavigationListener } from "./files/sitelog";
 // // const siteURL = window.location.href;
 
 addSite();
+startNavigationListener();
 
 
 // siteStatus();

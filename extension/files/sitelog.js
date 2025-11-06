@@ -60,16 +60,16 @@ export function addAppliedJob() {
 export function checkApplicationTable() {
 
     const targetNode = document.body;
-
     const config = { childList: true, subtree: true };
 
     const callback = (mutationsList, observer) => {
+        const rowsExist = document.querySelector('[data-automation-id="applicationTitle"]');
         const appSection = document.querySelector('[data-automation-id="applicationsSectionHeading"]');
 
-        if (appSection) {
+        if (rowsExist && appSection) {
             console.log("Table found, Now extracting job data");
             extractJobDetails(appSection);
-            observer.disconnect();
+            // observer.disconnect();
         }
     };
 
@@ -90,44 +90,44 @@ function extractJobDetails(appSection) {
 
     chrome.storage.local.get({ jobs: {} }, result => {
 
-        const comp = window.location.hostname;
-        // to get the window.location data
-        console.log("#####window", window.location);
+        const hostname = window.location.hostname;
         const currentJobs = result.jobs;
-
-        const currentCompanyJobs = currentJobs[comp] || { active: [], inactive: [] };
+        const currentCompanyJobs = currentJobs[hostname] || { active: [], inactive: [] };
 
         function getContent(taskRow) {
+            if (!taskRow) return [];
+
             const taskContent = [];
+            const items = taskRow.querySelectorAll('tr');
 
-            if (taskRow) {
-                const items = taskRow.querySelectorAll('tr');
+            items.forEach(element => {
+                const jobTitleText = element.querySelector('[data-automation-id="applicationTitle"]')?.textContent || "Unknown";
+                const cells = element.querySelectorAll('td');
 
-                items.forEach(element => {
-                    const jobTitleText = element.querySelector('[data-automation-id="applicationTitle"]')?.textContent || "Unknown";
-                    const cells = element.querySelectorAll('td');
+                const itemContent = {
+                    jobTitle: jobTitleText.trim(),
+                    jobReq: cells[0]?.textContent.trim() || "Unknown",
+                    jobStatus: element.querySelector('[data-automation-id="applicationStatus"]')?.textContent || "Unknown",
+                    jobDate: cells[2]?.textContent.trim() || "Unknown"
+                };
+                taskContent.push(itemContent);
+            });
 
-                    const itemContent = {
-                        jobTitle: jobTitleText.trim(),
-                        jobReq: cells[0]?.textContent.trim() || "Unknown",
-                        jobStatus: element.querySelector('[data-automation-id="applicationStatus"]')?.textContent || "Unknown",
-                        jobDate: cells[2]?.textContent.trim() || "Unknown"
-                    };
-                    taskContent.push(itemContent);
-                });
-
-            }
             return taskContent;
         }
 
-        currentCompanyJobs.active = getContent(activeJobs);
-        currentCompanyJobs.inactive = getContent(inactiveJobs);
+        const newActive = getContent(activeJobs);
+        const newInactive = getContent(inactiveJobs);
 
-        currentJobs[comp] = currentCompanyJobs;
+        if (newActive.length > 0 || newInactive.length > 0) {
+            currentCompanyJobs.active = newActive;
+            currentCompanyJobs.inactive = newInactive;
+            currentJobs[hostname] = currentCompanyJobs;
 
-        chrome.storage.local.set({ jobs: currentJobs }, () => {
-            console.log("Storage updated for", comp);
-        });
+            chrome.storage.sync.set({ jobs: currentJobs }, () => {
+                console.log("Saved to storage:", currentCompanyJobs);
+            });
+        }
     })
 }
 
@@ -136,9 +136,18 @@ function extractJobDetails(appSection) {
 // When candidate goes home
 export function startNavigationListener() {
 
+    // if ((new URL(event.destination.url)).includes('/userHome')){
+    //     console.log("$$$ starting quick")
+    //     checkApplicationTable();
+    // }
+
+
+    console.log("$$$$ set the nav listener")
     navigation.addEventListener('navigate', (event) => {
         const url = new URL(event.destination.url);
+        console.log("got ", url)
         if (url.pathname.includes('/userHome')) {
+            console.log("((((((((((((((((((called")
             checkApplicationTable();
         }
     });

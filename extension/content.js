@@ -1,6 +1,6 @@
 
-import { createAccountHelper, createHomeLink } from "./files/dom";
-import { signIn, createAccount } from "./files/auth"
+// import { createAccountHelper, createHomeLink } from "./files/dom";
+// import { signIn, createAccount } from "./files/auth"
 import { addSite, startNavigationListener } from "./files/sitelog";
 // maybe just once file like index which gives it all as myWorklog.xy
 

@@ -67,7 +67,7 @@ export function checkApplicationTable() {
         const appSection = document.querySelector('[data-automation-id="applicationsSectionHeading"]');
 
         if (rowsExist && appSection) {
-            console.log("Table found, Now extracting job data");
+            console.log("$$$ Table found, Now extracting job data");
             extractJobDetails(appSection);
             // observer.disconnect();
         }
@@ -78,10 +78,11 @@ export function checkApplicationTable() {
 }
 
 //
-//- not all will be on the page, need to click to get the rest
+//- not all will be on the page, need to click to get the rest (pagination)
 //- applied jobs might not be needed cause it takes to home immediately
 //-     but still just in case it doesnt
 //- store by domain not company name
+//- full table not loaded in if viewport small
 function extractJobDetails(appSection) {
 
     const tbodies = appSection.querySelectorAll('tbody');
@@ -94,9 +95,10 @@ function extractJobDetails(appSection) {
         const currentJobs = result.jobs;
         const currentCompanyJobs = currentJobs[hostname] || { active: [], inactive: [] };
 
-        function getContent(taskRow) {
+        function getContent(taskRow, isActive = true) {
             if (!taskRow) return [];
 
+            const prevList = isActive ? currentCompanyJobs.active : currentCompanyJobs.inactive;
             const taskContent = [];
             const items = taskRow.querySelectorAll('tr');
 
@@ -104,11 +106,13 @@ function extractJobDetails(appSection) {
                 const jobTitleText = element.querySelector('[data-automation-id="applicationTitle"]')?.textContent || "Unknown";
                 const cells = element.querySelectorAll('td');
 
+                const existingData = prevList.find(job => job.jobTitle === jobTitleText) || {};
+
                 const itemContent = {
                     jobTitle: jobTitleText.trim(),
-                    jobReq: cells[0]?.textContent.trim() || "Unknown",
+                    jobReq: cells[0]?.textContent.trim() || existingData.jobReq || "Unknown",
                     jobStatus: element.querySelector('[data-automation-id="applicationStatus"]')?.textContent || "Unknown",
-                    jobDate: cells[2]?.textContent.trim() || "Unknown"
+                    jobDate: cells[2]?.textContent.trim() || existingData.jobDate || "Unknown"
                 };
                 taskContent.push(itemContent);
             });
@@ -124,7 +128,7 @@ function extractJobDetails(appSection) {
             currentCompanyJobs.inactive = newInactive;
             currentJobs[hostname] = currentCompanyJobs;
 
-            chrome.storage.sync.set({ jobs: currentJobs }, () => {
+            chrome.storage.local.set({ jobs: currentJobs }, () => {
                 console.log("Saved to storage:", currentCompanyJobs);
             });
         }
@@ -136,19 +140,21 @@ function extractJobDetails(appSection) {
 // When candidate goes home
 export function startNavigationListener() {
 
-    // if ((new URL(event.destination.url)).includes('/userHome')){
-    //     console.log("$$$ starting quick")
-    //     checkApplicationTable();
-    // }
+    const handleNavigation = (url) => {
+        if (url.includes('/userHome')){
+            console.log("Checking page now")
+            checkApplicationTable();
+        }
+    }
 
+    console.log('$$$ here', window.location.href)
+    handleNavigation(window.location.href);
 
     console.log("$$$$ set the nav listener")
     navigation.addEventListener('navigate', (event) => {
         const url = new URL(event.destination.url);
-        console.log("got ", url)
-        if (url.pathname.includes('/userHome')) {
-            console.log("((((((((((((((((((called")
-            checkApplicationTable();
-        }
+        console.log('$$$ here is url: ', url)
+        console.log("got ", url);
+        handleNavigation(url);
     });
 }

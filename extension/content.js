@@ -269,10 +269,10 @@ const generalObserver = new MutationObserver(() => {
 });
 
 //- maybe observe the button bar instead?
-generalObserver.observe(document.body, {
-    childList: true,
-    subtree: true
-});
+// generalObserver.observe(document.body, {
+//     childList: true,
+//     subtree: true
+// });
 
 
 
@@ -306,15 +306,15 @@ function uploadFile() {
         }
     });
 
-    observer.observe(document.body, {
-        childList: true,
-        subtree: true
-    })
+    // observer.observe(document.body, {
+    //     childList: true,
+    //     subtree: true
+    // })
 
 }
 
 
-uploadFile();
+// uploadFile();
 
 // Look for what to do, sign up, sign in
 // function ensureAccount() {

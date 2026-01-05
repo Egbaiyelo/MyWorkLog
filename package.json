@@ -19,10 +19,14 @@
   "type": "module",
   "main": "extension/content.js",
   "scripts": {
-    "test": "\"echo \\\"Error: no test specified\\\" && exit 1\"",
-    "build": "esbuild .\\extension\\content.js --bundle --outfile=extension/dist/content.bundle.js"
+    "build": "esbuild .\\extension\\content.js --bundle --outfile=extension/dist/content.bundle.js",
+    "test:unit": "vitest run",
+    "test:e2e": "playwright test",
+    "test:": "vitest"
   },
   "devDependencies": {
-    "esbuild": "^0.27.3"
+    "esbuild": "^0.27.3",
+    "jest-chrome": "^0.8.0",
+    "vitest": "^4.0.18"
   }
 }

@@ -33,3 +33,7 @@ data.json
 html-snapshots/
 
 **/test-site/*
+
+
+*.pem
+*.crx

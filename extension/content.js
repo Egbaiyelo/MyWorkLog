@@ -1,5 +1,5 @@
 
-// import { createAccountHelper, createHomeLink } from "./files/dom";
+import { AddLinkToHome } from "./files/dom";
 // import { signIn, createAccount } from "./files/auth"
 import { addSite, startNavigationListener } from "./files/sitelog";
 // maybe just once file like index which gives it all as myWorklog.xy
@@ -54,7 +54,7 @@ startNavigationListener();
 //         console.log(signInButton);
 //         signInButton.click();
 //         //- Do for register too
-        
+
 
 //         // signInButton.dispatchEvent(new MouseEvent('click', {
 //         //     view: window,
@@ -123,7 +123,7 @@ function siteStatus() {
 }
 
 
-//#endregion 
+//#endregion
 
 //#region 3. Add MyWorkday Button
 
@@ -132,7 +132,45 @@ function siteStatus() {
 
 // Issue -> Might move buttons somewhere else, login/register button and then the home button
 
-// AddLinkToHome()
+console.log("&&&&&&&&&&&&&&&&&&&&&&&&&&&&7")
+const utilityBarObserver = new MutationObserver(() => {
+    const utilButtonBar = document.querySelector('[data-automation-id="utilityButtonBar"]');
+    if (utilButtonBar) {
+        const myWorkdayButton = utilButtonBar.querySelector('#myWorkday-button-div');
+        const barDivider = document.querySelector('#myWorkday-divider-div')
+
+        // ensure its last
+        //- might not have to run
+        if (myWorkdayButton) {
+            if (utilButtonBar.children[utilButtonBar.children.length - 1].id != 'myWorkday-button-div') {
+
+                utilButtonBar.appendChild(barDivider);
+                utilButtonBar.appendChild(myWorkdayButton);
+            }
+        }
+        else {
+            // Getting the base text color for blending in
+            const utilButton = utilButtonBar.querySelector('button');
+            const utilColor = getComputedStyle(utilButton).color;
+            // console.log("util button", utilButton, utilColor);
+            // console.log("util button color", utilColor);
+
+            //- Probably check for my element instead and add it if not there based on Status
+            AddLinkToHome(utilButtonBar, utilColor);
+            // generalObserver.disconnect();
+        }
+        //- find different way to make sure its last
+        // utilityBarObserver.disconnect();
+    }
+})
+
+utilityBarObserver.observe(document.body, {
+    childList: true,
+    subtree: true
+});
+
+console.log("##################################")
+
 
 // $$ auth logic
 

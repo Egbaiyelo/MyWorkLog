@@ -125,27 +125,26 @@ function siteStatus() {
 
 //#endregion
 
-//#region 3. Add MyWorkday Button
+//#region 3. Add MyWorkLog Button
 
 // button for home page
 // Button for sign in / sign up
 
 // Issue -> Might move buttons somewhere else, login/register button and then the home button
 
-console.log("&&&&&&&&&&&&&&&&&&&&&&&&&&&&7")
 const utilityBarObserver = new MutationObserver(() => {
     const utilButtonBar = document.querySelector('[data-automation-id="utilityButtonBar"]');
     if (utilButtonBar) {
-        const myWorkdayButton = utilButtonBar.querySelector('#myWorkday-button-div');
-        const barDivider = document.querySelector('#myWorkday-divider-div')
+        const myWorkLogButton = utilButtonBar.querySelector('#myWorkLog-button-div');
+        const barDivider = document.querySelector('#myWorkLog-divider-div')
 
         // ensure its last
         //- might not have to run
-        if (myWorkdayButton) {
-            if (utilButtonBar.children[utilButtonBar.children.length - 1].id != 'myWorkday-button-div') {
+        if (myWorkLogButton) {
+            if (utilButtonBar.children[utilButtonBar.children.length - 1].id != 'myWorkLog-button-div') {
 
                 utilButtonBar.appendChild(barDivider);
-                utilButtonBar.appendChild(myWorkdayButton);
+                utilButtonBar.appendChild(myWorkLogButton);
             }
         }
         else {

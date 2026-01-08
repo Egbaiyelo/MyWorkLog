@@ -38,7 +38,7 @@ export function createHomeLink(targetColor = 'white') {
 
     // Button text and style
     const targetText = document.createElement('span');
-    targetText.textContent = "MyWorkday";
+    targetText.textContent = "MyWorkLog";
     Object.assign(targetText.style, {
         color: targetColor,
         fontSize: '12px',
@@ -84,7 +84,7 @@ export function createHomeLink(targetColor = 'white') {
     const barDivider = document.createElement('div');
     barDivider.setAttribute('data-automation-id', 'utility-button-bar-divider');
     barDivider.setAttribute('color', '#FFFFFF');
-    barDivider.id = 'myWorkday-divider-div';
+    barDivider.id = 'myWorkLog-divider-div';
     // barDivider.setAttribute('color', targetColor);
     Object.assign(barDivider.style, {
         backgroundColor: targetColor,
@@ -99,7 +99,7 @@ export function createHomeLink(targetColor = 'white') {
     targetButtonDiv.setAttribute('data-automation-id', 'utilityButtonTarget');
     targetButtonDiv.style.height = '21px';
     targetButtonDiv.append(targetButton);
-    targetButtonDiv.id = "myWorkday-button-div";
+    targetButtonDiv.id = "myWorkLog-button-div";
     Object.assign(targetButtonDiv.style, {
         //- for style update
         //- also add hover thingy for style update
@@ -135,7 +135,7 @@ export function createAccountHelper(helperText, onClickHandler) {
         <span style="flex: 1; border-bottom: 1px solid #ccc; margin-left: 10px;"></span>
     `;
 
-    // MyWorkday Sign In Button
+    // MyWorkLog Sign In Button
     const button = document.createElement('button');
     button.textContent = helperText;
     button.style.padding = '10px 16px';

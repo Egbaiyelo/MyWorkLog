@@ -3,11 +3,14 @@ const MAIN = document.querySelector('main');
 // Adding back link
 //! Resolve back link
 // document.referer
+
+//- ensure all element tags start with something so not to clash with base site
 document.querySelector('#back-button').addEventListener('click', function () {
-    window.location.href = window.history.back();
+    window.history.back();
 });
 
-// console.log('here')
+
+//- what for?
 chrome.runtime.sendMessage({ action: "addSite", data: { name: 'testing', url: 'test.com' } }, (response) => {
     if (chrome.runtime.lastError) {
         console.error('Error messaging extension:', chrome.runtime.lastError.message);
@@ -22,7 +25,7 @@ chrome.runtime.sendMessage({ action: "addSite", data: { name: 'testing', url: 't
 });
 
 // 
-// 
+//- what for?
 chrome.runtime.sendMessage({ action: 'getData' }, (response) => {
     if (chrome.runtime.lastError) {
         console.error('Error messaging extension:', chrome.runtime.lastError.message);
@@ -52,3 +55,11 @@ chrome.runtime.sendMessage({ action: 'getData' }, (response) => {
         console.error('Invalid credentials received from nativeHost');
     }
 });
+
+chrome.storage.local.get("companySites", (result) => {
+    
+})
+
+function makeCompanyButton(){
+
+}

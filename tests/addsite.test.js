@@ -1,6 +1,11 @@
 import { vi, describe, it, expect, beforeEach } from 'vitest';
-import { chrome } from 'jest-chrome'; 
 import { addSite } from '../extension/files/sitelog';
+import { before } from 'node:test';
+
+//- need a solution for this later, jest is not implied without this
+if (typeof global.jest === 'undefined') {
+  global.jest = vi;
+}
 
 describe('addSite logic', () => {
     beforeEach(() => {
@@ -12,7 +17,7 @@ describe('addSite logic', () => {
 
     it('should extract company name and baseURL correctly', () => {
         chrome.storage.local.get.mockImplementation((key, callback) => {
-            callback({}); 
+            callback({});
         });
 
         addSite();
@@ -59,5 +64,46 @@ describe('addSite logic', () => {
         });
     });
 
-
 });
+
+describe('addsite test on multiple urls', () => {
+    beforeEach( () => {
+        vi.clearAllMocks();
+    });
+
+    //- leads to another issue if the site isnt moved to source /userHome (force site change when it does)
+    it.each([
+        //- note to ensure all sites have the link to /userHome and that it doesnt just take a random link
+        {
+            url: 'https://globalcorp.wd3.myworkdayjobs.com/en-US/External',
+            expectedName: 'globalcorp'
+        },
+        {
+            url: 'https://octan.wd3.myworkdayjobs.com/en-US/octan_Bank_Careers',
+            expectedName: 'octan'
+        }
+    ])('should handle each site correctly', ({url, expectedName}) => {
+    
+        delete window.location;
+        window.location = new URL(url);
+    
+        chrome.storage.local.get.mockImplementation((key, callback) => {
+            callback({});
+        });
+    
+        addSite();
+
+        //- test expected base ending
+        // const expectedBaseEnding = ""
+    
+        expect(chrome.storage.local.set).toHaveBeenCalledWith(
+            expect.objectContaining({
+                companySites: expect.objectContaining({
+                    // or expect.stringContaining
+                    [expectedName]: expect.stringContaining(expectedName)
+                })
+            }), expect.any(Function)
+        )
+    
+    });
+})

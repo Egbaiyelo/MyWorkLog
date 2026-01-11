@@ -26,14 +26,17 @@
         "nativeMessaging"
     ],
     "host_permissions": [
-        "*://*.myworkdayjobs.com/*"
+        "https://*.myworkdayjobs.com/*",
+        "https://www.google.com/s2/favicons*"
     ],
     "web_accessible_resources": [
         {
             "resources": [
                 "icons/*",
                 "pages/*",
-                "files/*"
+                "files/*",
+                "assets/*.png",
+                "icons/*.png"
             ],
             "matches": [
                 "<all_urls>"

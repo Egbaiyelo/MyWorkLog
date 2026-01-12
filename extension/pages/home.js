@@ -67,37 +67,57 @@ chrome.storage.local.get("companySites", (result) => {
     })
 })
 
-function makeCompanyButton(companyName, baseURL){
+//- add num of tracked apps
+//- might break out and add a bundled source for the html instead
+function makeCompanyButton(companyName, baseURL) {
     console.log('got here')
-    const companyList = document.querySelector('#company-list');
+    const companyList = document.querySelector('#company-list-div');
 
     const div = document.createElement('div');
-    const p = document.createElement('p');
-    p.textContent = companyName;
-    div.appendChild(p);
-
+    const span = document.createElement('span');
+    span.textContent = companyName;
+    
     const url = new URL(baseURL);
     const img = document.createElement('img');
     img.src = getLogo(companyName, url.hostname);
     img.alt = `${companyName}-logo`;
+    
+    img.style.width = '45px';
+    img.style.height = '45px';
+    img.style.objectFit = 'contain';
+    
     div.appendChild(img);
+    div.appendChild(span);
+
     console.log('############', div)
 
+    // Link to Candiate home
+    div.addEventListener('click', () => {
+        window.open(baseURL, '_blank');
+    })
+
     companyList.appendChild(div);
+    //- maybe host website that just pulls the local storage and displays so people can bookmark and shortcut unless its possuble here
+    //- separate companies into active and inactive based on job status
 }
 
+//- cira.ca vs cira.com?
+//- add to readme (screenshot) with american banks maybe?
 function getLogo(companyName, domain) {
 
-    const localLogo = chrome.runtime.getURL(`assets/${companyName}.png`);
-    
-    // DuckDuckGo = ddg
-    const ddg = `https://icons.duckduckgo.com/ip3/${companyName}.com.ico`;
+    // Maybe never?
+    // const localLogo = chrome.runtime.getURL(`assets/${companyName}.png`);
 
-    // Final fallback, workday
+    // DuckDuckGo = ddg
+    const ddgSrc = `https://icons.duckduckgo.com/ip3/${companyName}.com.ico`;
+
+    // Final fallback, workday logo
     const defaultLogo = `https://www.google.com/s2/favicons?domain=${domain}&sz=64`;
 
-    //- just need anything thats stable
-    // const faviconService = `https://www.google.com/s2/favicons?domain=${domain}&sz=64&fallback_opts=type,url`;
-    // const faviconUrl = `chrome-extension://${chrome.runtime.id}/_favicon/?pageUrl=${encodeURIComponent(domain)}&size=64`;
-    return  ddg || defaultLogo;
+    return ddgSrc || defaultLogo;
 }
+
+
+chrome.storage.local.get("jobs", (result) => {
+
+})

@@ -20,6 +20,8 @@ import { addSite, startNavigationListener } from "./files/sitelog";
 // console.log("I work")
 // // const siteURL = window.location.href;
 
+//- only when once logged in (this ensures right path to home)
+//- verify how sitechange happened
 addSite();
 startNavigationListener();
 

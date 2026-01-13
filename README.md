@@ -1,9 +1,9 @@
-# MyWorkConsole
+# MyWorkLog
 
 
 Browser extension* to provide a 'jobSeeker-side' dashboard for the job seeking process.
 It helps manage applications across workday clients, collecting data on status, etc.
-It also helps login and sign up with the same email so the user doesn need to manage them
+<!-- It also helps login and sign up with the same email so the user doesn need to manage them -->
 
 
 Portals like myWordayJobs don't provide a proper frontend
@@ -15,18 +15,29 @@ Portals like myWordayJobs don't provide a proper frontend
 This project strives to fix this. It provides an extension and a native host application to provide a unified interface for jobseekers to breeze through these roadblocks.
 
 ## Key-features
-The workconsole would allow
-- Easy registration/ login or automatic authentication
+The workLog would allow
+<!-- - Easy registration/ login or automatic authentication -->
 - A dashboard for all job statuses
 - Form fill helpers
 
 To install the extension download the extension folder
 - Open the browser extensions environment and click developer mode
-- CLick load unpacked and select the extension in your file explorer.
+- Click load unpacked and select the extension in your file explorer.
 
-The extension can function to some extent without the app. It does
-- 
+<!-- The extension can function to some extent without the app. It does
+-  -->
 
+## How to use
+When you go to a workday site, a button will appear'
+
+![site button](img/addedbutton.png)
+
+click it to go to your page
+
+![page](img/fullpage.png)
+
+There you have all your tracked applications, tap them to go to the site
+And you can view applications at the bottom, this is all in local storage and you need to go to the site to update the information as it is just a cache to know what statuses looked like when last logged in. I will maybe add a last checked button and connect to the app so you can scrape all the sites at once. 
 
 To install the app, you need to set it up yourself as it does not yet have an installer.
 You can see the instructions on the [app's readme page](./app/README.md)

@@ -85,9 +85,14 @@ export function checkApplicationTable() {
 //- full table not loaded in if viewport small
 function extractJobDetails(appSection) {
 
-    const tbodies = appSection.querySelectorAll('tbody');
-    const activeJobs = tbodies[0] || null;   // not initally hidden
-    const inactiveJobs = tbodies[1] || null; // a tbody that is initally hidden
+    console.log('@@@@@@@@@', appSection)
+
+    const tpanels = appSection.querySelectorAll('[role="tabpanel"]');
+    const activeJobs = tpanels[0].querySelector('tbody') || null;   // not initally hidden
+    const inactiveJobs = tpanels[1].querySelector('tbody') || null; // a tbody that is initally hidden
+    // Or maybe use .hidden?
+
+    console.log("@@@@@@@@@@@inactive", activeJobs, inactiveJobs)
 
     chrome.storage.local.get({ jobs: {} }, result => {
 
@@ -135,14 +140,14 @@ function extractJobDetails(appSection) {
     })
 }
 
-//- maybe background has all the listeners and dispatches events?
+//- maybe background has all the navigations listeners and dispatches events?
 
 // When candidate goes home
 export function startNavigationListener() {
 
     const handleNavigation = (url) => {
         if (url.includes('/userHome')){
-            console.log("Checking page now")
+            // console.log("Checking page now")
             checkApplicationTable();
         }
     }
@@ -153,8 +158,8 @@ export function startNavigationListener() {
     console.log("$$$$ set the nav listener")
     navigation.addEventListener('navigate', (event) => {
         const url = new URL(event.destination.url);
-        console.log('$$$ here is url: ', url)
-        console.log("got ", url);
+        // console.log('$$$ here is url: ', url)
+        // console.log("got ", url);
         handleNavigation(url);
     });
 }

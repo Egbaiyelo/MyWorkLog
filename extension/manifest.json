@@ -25,6 +25,19 @@
         "tabs",
         "nativeMessaging"
     ],
+    "icons": {
+        "16": "icons/log16.png",
+        "48": "icons/log48.png",
+        "128": "icons/log128.png"
+    },
+    "action": {
+        "default_icon": {
+            "16": "icons/log16.png",
+            "24": "icons/log24.png",
+            "32": "icons/log32.png"
+        },
+        "default_title": "MyWorkLog"
+    },
     "host_permissions": [
         "https://*.myworkdayjobs.com/*",
         "https://www.google.com/s2/favicons*"

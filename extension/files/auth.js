@@ -82,23 +82,23 @@ const generalObserver = new MutationObserver(() => {
             }
             else {
                 //- Maybe allow multiple accounts
-                console.warn("myWorkday says: You are logged in with a different account! It cannot be monitored")
+                console.warn("myWorkLog says: You are logged in with a different account! It cannot be monitored")
             }
 
         }
 
         // Given the way the page routes, better to keep checking and ensure adding the link
-        const myWorkdayButton = document.querySelector('#myWorkday-button-div');
-        const barDivider = document.querySelector('#myWorkday-divider-div');
+        const myWorkLogButton = document.querySelector('#myWorkLog-button-div');
+        const barDivider = document.querySelector('#myWorkLog-divider-div');
         //- Ensure its last element and change name from item present
-        // console.log('itemPresent', myWorkdayButton)
+        // console.log('itemPresent', myWorkLogButton)
 
-        if (myWorkdayButton) {
+        if (myWorkLogButton) {
             // console.log('^^^^^^^^^^^^^ehwreheye', utilButtonBar.children, utilButtonBar.children[utilButtonBar.children.length - 1])
-            if (utilButtonBar.children[utilButtonBar.children.length - 1].id != 'myWorkday-button-div') {
+            if (utilButtonBar.children[utilButtonBar.children.length - 1].id != 'myWorkLog-button-div') {
 
                 utilButtonBar.appendChild(barDivider);
-                utilButtonBar.appendChild(myWorkdayButton);
+                utilButtonBar.appendChild(myWorkLogButton);
             }
 
         } else {
@@ -118,33 +118,33 @@ const generalObserver = new MutationObserver(() => {
 
         function HandleAccountForm() {
             console.log("username", password, username)
-            //- New flow -> user clicks sign in and can then register or login with myWorkday
+            //- New flow -> user clicks sign in and can then register or login with myWorklog
             //- maybe offer to register if not and if user logs in maybe save pass info
             const formType = document.getElementById('authViewTitle').textContent;
             if (formType == 'Sign In') {
                 //- onclick signin and then click button
 
-                const signInHelper = document.querySelector('#myWorkday-signIn-helper');
+                const signInHelper = document.querySelector('#myWorklog-signIn-helper');
                 if (!signInHelper) {
 
-                    const element = createAccountHelper('Sign in with MyWorkday', () => {
+                    const element = createAccountHelper('Sign in with MyWorklog', () => {
                         signIn(signInFormo, username, password, true);
                     });
 
-                    element.id = 'myWorkday-signIn-helper';
+                    element.id = 'myWorklog-signIn-helper';
                     signInFormo.appendChild(element);
                 }
 
 
             } else if (formType == 'Create Account') {
 
-                const registerHelper = document.querySelector('#myWorkday-register-helper');
+                const registerHelper = document.querySelector('#myWorklog-register-helper');
                 if (!registerHelper) {
-                    const element = createAccountHelper('Register with MyWorkday', () => {
+                    const element = createAccountHelper('Register with MyWorklog', () => {
                         createAccount(signInFormo, username, password, true);
                     });
 
-                    element.id = 'myWorkday-register-helper';
+                    element.id = 'myWorklog-register-helper';
                     signInFormo.appendChild(element);
                 }
             }
@@ -169,7 +169,7 @@ const generalObserver = new MutationObserver(() => {
                     HandleAccountForm();
                 } else {
                     console.error('Invalid credentials received from nativeHost');
-                    Alert("MyWorkday could not get your credentials, please fill form manually")
+                    Alert("MyWorklog could not get your credentials, please fill form manually")
                 }
             });
         } else {

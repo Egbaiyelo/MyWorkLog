@@ -1,1 +1,4 @@
 account-folder: folder-share-svgrepo-com
+logs = https://iconbuddy.com/search?q=log
+
+//- from issue #15 -> and the extension icon should be a logbook with identicon

@@ -1,5 +1,5 @@
 {
-  "name": "com.me.my_workday",
+  "name": "com.me.my_worklog",
   "description": "Web Scraping application to gather data on workday sites",
   "path": "C:\\Users\\HP\\Documents\\GitHub\\Controller-class\\test-app\\nativehost.bat",
   "type": "stdio",

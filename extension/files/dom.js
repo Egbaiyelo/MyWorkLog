@@ -151,8 +151,8 @@ export function createAccountHelper(helperText, onClickHandler) {
 
     // icon
     // const icon = document.createElement('img');
-    // icon.src = chrome.runtime.getURL('icons/workday-icon.svg'); 
-    // icon.alt = 'Workday icon';
+    // icon.src = chrome.runtime.getURL('icons/worklog-icon.svg'); 
+    // icon.alt = 'WorkLog icon';
     // icon.style.width = '20px';
     // icon.style.height = '20px';
     // button.prepend(icon);

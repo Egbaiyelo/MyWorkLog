@@ -13,13 +13,13 @@
 
 // })
 
-const nativeHost = 'com.me.my_workday';
+const NATIVE_HOST = 'com.me.my_worklog';
 
 // maybe the action and message should be the same string
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     if (message.action === 'getCredentials') {
 
-        chrome.runtime.sendNativeMessage('com.me.my_workday', { action: '/get-credentials' }, (response) => {
+        chrome.runtime.sendNativeMessage(NATIVE_HOST, { action: '/get-credentials' }, (response) => {
             if (chrome.runtime.lastError) {
                 console.error('Native messaging error:', chrome.runtime.lastError.message);
             }
@@ -32,7 +32,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     }
     else if (message.action === 'getData') {
 
-        chrome.runtime.sendNativeMessage('com.me.my_workday', { action: '/scrape' }, (response) => {
+        chrome.runtime.sendNativeMessage(NATIVE_HOST, { action: '/scrape' }, (response) => {
             if (chrome.runtime.lastError) {
                 console.error('Native messaging error:', chrome.runtime.lastError.message);
             }
@@ -44,7 +44,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
         return true;
     }
     else if (message.action === 'addSite') {
-        chrome.runtime.sendNativeMessage('com.me.my_workday', { action: '/add-site', data: message.data }, (response) => {
+        chrome.runtime.sendNativeMessage(NATIVE_HOST, { action: '/add-site', data: message.data }, (response) => {
             console.log('addsite command received');
             if (chrome.runtime.lastError) {
                 console.error('Native messaging error:', chrome.runtime.lastError.message);

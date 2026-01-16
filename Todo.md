@@ -7,7 +7,7 @@ Ensure site logger can store visited sites
 # Scraper <app>
 
 # Data 
-ensure login button, login with myworkday, register with myworkday
+ensure login button, login with myworklog, register with myworklog
 
 
 

@@ -1,7 +1,8 @@
 
-import { AddLinkToHome, createAccountHelper, createHomeLink } from "./files/dom";
-import { signIn, createAccount } from "./files/auth"
-import { addSite } from "./files/addsite";
+// import { createAccountHelper, createHomeLink } from "./files/dom";
+// import { signIn, createAccount } from "./files/auth"
+import { addSite, startNavigationListener } from "./files/sitelog";
+// maybe just once file like index which gives it all as myWorklog.xy
 
 // Add site
 // Login
@@ -11,14 +12,16 @@ import { addSite } from "./files/addsite";
 
 //-! need a lot better error handling between connections
 
-
-
 //#region 1. ADD SITE
 
 // The first functionality is adding sites to the watch list, so all sites with a workday domain
 // can be tracked and viewed anytime.
 
-const siteURL = window.location.href;
+// console.log("I work")
+// // const siteURL = window.location.href;
+
+addSite();
+startNavigationListener();
 
 
 // siteStatus();

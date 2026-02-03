@@ -2,6 +2,7 @@
 # 
 node_modules/
 .vscode/
+dist/
 changed-*/
 nativeMessenger-Vanilla/
 
@@ -9,6 +10,7 @@ nativeMessenger-Vanilla/
 *.temp.*
 *.log
 **/later/
+*.bat
 
 
 # To store handling (encryption, storagr) of passwords
@@ -30,3 +32,5 @@ data.json
 *.log
 html-snapshots/
 
+
+test-site/*

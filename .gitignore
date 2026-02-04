@@ -1,12 +1,12 @@
 
-# 
+# Generated files and outside source files
 node_modules/
 .vscode/
 dist/
 changed-*/
 nativeMessenger-Vanilla/
 
-# Temp files
+# Temp files and working files
 *.temp.*
 *.log
 **/later/
@@ -16,20 +16,16 @@ nativeMessenger-Vanilla/
 # To store handling (encryption, storagr) of passwords
 credentials.js
 
-# To manage access (ensure logged in or signed up) and manage user data
-# account.js
-
-# Auxilliary files for html viewing (dont think I should commit these)
+# Auxilliary files for html viewing 
 page.md
-page-snapshot.html
-element-snapshot.html
+html-snapshots/
+*-snapshot.html
 
 **/note.txt
-
 data.json
 
-# Log files
-*.log
-html-snapshots/
-
 **/test-site/*
+
+# Extension files
+*.crx
+*.pem

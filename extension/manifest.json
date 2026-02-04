@@ -23,11 +23,22 @@
         "scripting",
         "activeTab",
         "tabs",
-        "nativeMessaging"
+        "nativeMessaging",
+        "identity",
+        "identity.email"
     ],
     "host_permissions": [
         "*://*.myworkdayjobs.com/*"
     ],
+    "action": {},
+    "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAxr1G89QyaY/NCUCmg5x0Kcu9qkArBRfvMznqJ884X25b/tMYwdxU+sS3nyHKnZ7bzmvXuR8hgqnPoBAG5alV0kalfVRpBDEbtUulgoLZDpnvQxXhu4SGBgHGeKnI7wfBqu9hzx4YiyafQKJf65tCNiUL13A45NJIwGoxzfW9MPrK4EnNt7kHICmLyKASAujSGeeEOIm7f/PCgjjHgE1xu1rRe0ppzYwyp0oRquEC3sE224WtCdFj2UuviXg5bZ1I5Emi7sWvrhmYAiAuTGPQon9XlD7uErs7N5QwEEkx9zN1wcTmuDYv3kqZ0whnryef3iz0DhzLYG9KPlbKvXt15QIDAQAB",
+    "oauth2": {
+        "client_id": "343477439158-o44vju3bgtkjjq0sdu16nvl7kmde5shs.apps.googleusercontent.com",
+        "scopes": [
+            "https://www.googleapis.com/auth/userinfo.email",
+            "https://www.googleapis.com/auth/userinfo.profile"
+        ]
+    },
     "web_accessible_resources": [
         {
             "resources": [

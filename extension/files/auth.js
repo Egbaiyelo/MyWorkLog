@@ -1,5 +1,14 @@
 
 
+// Ensure user is signed in
+export function EnsureSignIn() {
+    
+}
+
+
+
+// ---------------------- Native host methods --------------------
+
 // Autofills Sign In info
 //! Assumes all needed elements are present 
 // If submit is true, it also submits form
@@ -57,10 +66,9 @@ export function createAccount(form, email, password, submit) {
 }
 
 
-
 let username, password;
 
-const generalObserver = new MutationObserver(() => {
+export const generalObserver = new MutationObserver(() => {
 
     const utilButtonBar = document.querySelector("[data-automation-id='utilityButtonBar']");
     const signInFormo = document.querySelector("[data-automation-id='signInFormo']");
@@ -177,3 +185,6 @@ const generalObserver = new MutationObserver(() => {
         }
     }
 });
+
+
+

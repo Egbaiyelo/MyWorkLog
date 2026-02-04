@@ -1,6 +1,6 @@
 
 import { AddLinkToHome, createAccountHelper, createHomeLink } from "./files/dom";
-import { signIn, createAccount } from "./files/auth"
+// import { signIn, createAccount } from "./files/auth"
 import { addSite } from "./files/addsite";
 
 // Add site

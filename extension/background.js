@@ -13,9 +13,10 @@
 
 // })
 
-import { fetchAllAplications } from "./bkgutils.js";
+import { fetchAllAplications } from "./files/bkgutils.js";
 
-const NATIVE_HOST = 'com.me.my_worklog';
+let user_signed_in = false;
+const NATIVE_HOST = 'com.me.my_workday';
 
 // maybe the action and message should be the same string
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
@@ -128,6 +129,47 @@ chrome.identity.onSignInChanged.addListener(function (id, status) {
 //     });
 // }
 
+//             console.log("No token given")
+//             // Try again openly
+//             chrome.identity.getAuthToken({ interactive: true }, function (newAuthToken) {
+//                 if (chrome.runtime.lastError || !authToken) {
+//                     console.error("Login failed or was canceled:", chrome.runtime.lastError?.message);
+//                     return;
+//                 }
+//                 console.log("New token", newAuthToken)
+//             })
+//         }
+//         else {
+//             console.log({ "auth token": authToken });
+//             // sendResponse({ token: authToken })
+//         }
+//     });
+//     return true;
+// })
+
+// >>>>
+// chrome.identity.onSignInChanged.addListener(function (id, status) {
+//     console.log(status);
+// })
+
+// to bkgutils
+// export function loginUser() {
+//     chrome.identity.getAuthToken({ interactive: true }, function (token) {
+//         if (chrome.runtime.lastError || !token) {
+//             console.error("Login failed:", chrome.runtime.lastError);
+//             return;
+//         }
+
+//         // Now you have a token! Use it to get user info
+//         fetch(`https://www.googleapis.com/oauth2/v3/userinfo?access_token=${token}`)
+//             .then(response => response.json())
+//             .then(user => {
+//                 console.log("Logged in as:", user.email);
+//                 // Save user identity to local storage
+//                 chrome.storage.local.set({ user: { email: user.email, name: user.name } });
+//             });
+//     });
+// }
 
 
 

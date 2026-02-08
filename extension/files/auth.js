@@ -57,3 +57,123 @@ export function createAccount(form, email, password, submit) {
 }
 
 
+
+let username, password;
+
+const generalObserver = new MutationObserver(() => {
+
+    const utilButtonBar = document.querySelector("[data-automation-id='utilityButtonBar']");
+    const signInFormo = document.querySelector("[data-automation-id='signInFormo']");
+
+    if (utilButtonBar) {
+
+        // Addsite if logged in, can tell by the account button with the email in it
+        const accountButton = document.querySelector("[data-automation-id='utilityButtonAccountTasksMenu']");
+
+        if (accountButton) {
+
+            // request username
+            let username;
+            chrome.storage.sync.get("username", result => username = result);
+
+            // Dont expect anything else in the accountbutton other than email
+            if (accountButton.textContent === username) {
+                addSite();
+            }
+            else {
+                //- Maybe allow multiple accounts
+                console.warn("myWorkday says: You are logged in with a different account! It cannot be monitored")
+            }
+
+        }
+
+        // Given the way the page routes, better to keep checking and ensure adding the link
+        const myWorkdayButton = document.querySelector('#myWorkday-button-div');
+        const barDivider = document.querySelector('#myWorkday-divider-div');
+        //- Ensure its last element and change name from item present
+        // console.log('itemPresent', myWorkdayButton)
+
+        if (myWorkdayButton) {
+            // console.log('^^^^^^^^^^^^^ehwreheye', utilButtonBar.children, utilButtonBar.children[utilButtonBar.children.length - 1])
+            if (utilButtonBar.children[utilButtonBar.children.length - 1].id != 'myWorkday-button-div') {
+
+                utilButtonBar.appendChild(barDivider);
+                utilButtonBar.appendChild(myWorkdayButton);
+            }
+
+        } else {
+            // Getting the base text color for blending in
+            const utilButton = utilButtonBar.querySelector('button');
+            const utilColor = getComputedStyle(utilButton).color;
+            // console.log("util button", utilButton, utilColor);
+            // console.log("util button color", utilColor);
+
+            //- Probably check for my element instead and add it if not there based on Status
+            AddLinkToHome(utilButtonBar, utilColor);
+            // generalObserver.disconnect();
+        }
+    }
+
+    if (signInFormo) {
+
+        function HandleAccountForm() {
+            console.log("username", password, username)
+            //- New flow -> user clicks sign in and can then register or login with myWorkday
+            //- maybe offer to register if not and if user logs in maybe save pass info
+            const formType = document.getElementById('authViewTitle').textContent;
+            if (formType == 'Sign In') {
+                //- onclick signin and then click button
+
+                const signInHelper = document.querySelector('#myWorkday-signIn-helper');
+                if (!signInHelper) {
+
+                    const element = createAccountHelper('Sign in with MyWorkday', () => {
+                        signIn(signInFormo, username, password, true);
+                    });
+
+                    element.id = 'myWorkday-signIn-helper';
+                    signInFormo.appendChild(element);
+                }
+
+
+            } else if (formType == 'Create Account') {
+
+                const registerHelper = document.querySelector('#myWorkday-register-helper');
+                if (!registerHelper) {
+                    const element = createAccountHelper('Register with MyWorkday', () => {
+                        createAccount(signInFormo, username, password, true);
+                    });
+
+                    element.id = 'myWorkday-register-helper';
+                    signInFormo.appendChild(element);
+                }
+            }
+        }
+
+        // Ensure username and pass available
+        if (!username || !password) {
+            chrome.runtime.sendMessage({ action: 'getCredentials' }, (response) => {
+                // console.log("trying")
+                if (chrome.runtime.lastError) {
+                    console.error('Error messaging extension:', chrome.runtime.lastError.message);
+                    return;
+                }
+
+                // console.log("I got it the creds", response)
+
+                if (response && response.username && response.password) {
+                    console.log('got response')
+                    username = response.username;
+                    password = response.password;
+
+                    HandleAccountForm();
+                } else {
+                    console.error('Invalid credentials received from nativeHost');
+                    Alert("MyWorkday could not get your credentials, please fill form manually")
+                }
+            });
+        } else {
+            HandleAccountForm();
+        }
+    }
+});

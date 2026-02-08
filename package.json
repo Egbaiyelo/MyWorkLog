@@ -1,0 +1,32 @@
+{
+  "name": "myworklog",
+  "version": "0.1.0",
+  "description": "Job tracker for workday sites",
+  "keywords": [
+    "\"chrome-extension\"",
+    "\"manifest-v3\""
+  ],
+  "homepage": "https://github.com/Egbaiyelo/MyWorkLog#readme",
+  "bugs": {
+    "url": "https://github.com/Egbaiyelo/MyWorkLog/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Egbaiyelo/MyWorkLog.git"
+  },
+  "license": "UNLICENSED",
+  "author": "Egbaiyelo Moteniola",
+  "type": "module",
+  "main": "extension/content.js",
+  "scripts": {
+    "build": "esbuild .\\extension\\content.js --bundle --outfile=extension/dist/content.bundle.js",
+    "test:unit": "vitest run",
+    "test:e2e": "playwright test",
+    "test:": "vitest"
+  },
+  "devDependencies": {
+    "esbuild": "^0.27.3",
+    "jest-chrome": "^0.8.0",
+    "vitest": "^4.0.18"
+  }
+}

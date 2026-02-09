@@ -1,5 +1,5 @@
 
-// import { createAccountHelper, createHomeLink } from "./files/dom";
+import { AddLinkToHome } from "./files/dom";
 // import { signIn, createAccount } from "./files/auth"
 import { addSite, startNavigationListener } from "./files/sitelog";
 // maybe just once file like index which gives it all as myWorklog.xy
@@ -20,6 +20,8 @@ import { addSite, startNavigationListener } from "./files/sitelog";
 // console.log("I work")
 // // const siteURL = window.location.href;
 
+//- only when once logged in (this ensures right path to home)
+//- verify how sitechange happened
 addSite();
 startNavigationListener();
 
@@ -54,7 +56,7 @@ startNavigationListener();
 //         console.log(signInButton);
 //         signInButton.click();
 //         //- Do for register too
-        
+
 
 //         // signInButton.dispatchEvent(new MouseEvent('click', {
 //         //     view: window,
@@ -123,16 +125,53 @@ function siteStatus() {
 }
 
 
-//#endregion 
+//#endregion
 
-//#region 3. Add MyWorkday Button
+//#region 3. Add MyWorkLog Button
 
 // button for home page
 // Button for sign in / sign up
 
 // Issue -> Might move buttons somewhere else, login/register button and then the home button
 
-// AddLinkToHome()
+const utilityBarObserver = new MutationObserver(() => {
+    const utilButtonBar = document.querySelector('[data-automation-id="utilityButtonBar"]');
+    if (utilButtonBar) {
+        const myWorkLogButton = utilButtonBar.querySelector('#myWorkLog-button-div');
+        const barDivider = document.querySelector('#myWorkLog-divider-div')
+
+        // ensure its last
+        //- might not have to run
+        if (myWorkLogButton) {
+            if (utilButtonBar.children[utilButtonBar.children.length - 1].id != 'myWorkLog-button-div') {
+
+                utilButtonBar.appendChild(barDivider);
+                utilButtonBar.appendChild(myWorkLogButton);
+            }
+        }
+        else {
+            // Getting the base text color for blending in
+            const utilButton = utilButtonBar.querySelector('button');
+            const utilColor = getComputedStyle(utilButton).color;
+            // console.log("util button", utilButton, utilColor);
+            // console.log("util button color", utilColor);
+
+            //- Probably check for my element instead and add it if not there based on Status
+            AddLinkToHome(utilButtonBar, utilColor);
+            // generalObserver.disconnect();
+        }
+        //- find different way to make sure its last
+        // utilityBarObserver.disconnect();
+    }
+})
+
+utilityBarObserver.observe(document.body, {
+    childList: true,
+    subtree: true
+});
+
+console.log("##################################")
+
 
 // $$ auth logic
 

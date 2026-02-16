@@ -19,7 +19,7 @@
   "type": "module",
   "main": "extension/content.js",
   "scripts": {
-    "build": "esbuild .\\extension\\content.js --bundle --outfile=extension/dist/content.bundle.js",
+    "build": "node build.js",
     "test:unit": "vitest run",
     "test:e2e": "playwright test",
     "test:": "vitest"

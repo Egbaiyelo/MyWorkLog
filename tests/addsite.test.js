@@ -1,6 +1,5 @@
 import { vi, describe, it, expect, beforeEach } from 'vitest';
 import { addSite } from '../extension/files/sitelog';
-import { before } from 'node:test';
 
 //- need a solution for this later, jest is not implied without this
 if (typeof global.jest === 'undefined') {

@@ -1,4 +1,6 @@
 
+import { forgeElement } from './utils'
+
 const MAIN = document.querySelector('main');
 
 // Adding back link
@@ -139,30 +141,26 @@ function makeApplicationRow(hostName, data) {
 
     // DEMO //
 
-    const div = document.createElement('div');
-    div.classList.add('job-row')
+    //r const div = document.createElement('div');
+    // div.classList.add('job-row')
+    const div = forgeElement('div .job-row');
 
-    const jobTitle = document.createElement('div');
-    jobTitle.classList.add('job-title-cell');
+    const jobTitle = forgeElement('div .job-title-cell');
     const title = document.createElement('strong');
     title.textContent = data.active[0].jobTitle;
     jobTitle.appendChild(title);
-    const span = document.createElement('span');
+    const span = forgeElement('span .company-subtext');
     span.textContent = `at ${hostName.split('.')[0]}`;
-    span.classList.add('company-subtext')
     jobTitle.appendChild(span);
     div.appendChild(jobTitle);
 
-    const req = document.createElement('div');
-    req.classList.add('job-req-cell');
+    const req = forgeElement('div .job-req-cell');
     req.textContent = data.active[0].jobReq;
     div.appendChild(req)
 
-    const statusCell = document.createElement('div');
-    statusCell.classList.add('job-status-cell')
-    const statusBadge = document.createElement('span');
+    const statusCell = forgeElement('div .job-status-cell');
+    const statusBadge = forgeElement('span .status-badge .pending');
     //- status badge logic
-    statusBadge.classList.add('status-badge', 'pending');
     statusBadge.textContent = data.active[0].jobStatus
     statusCell.appendChild(statusBadge);
     div.appendChild(statusCell)

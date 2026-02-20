@@ -56,6 +56,15 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
 
         return true;
     }
+    //- might move to another file if full
+    else if (message.action === 'fetchApi') {
+        const apiUrl = message.url
+
+        fetch(apiUrl)
+            .then(res => res.json())
+            .then(data => sendResponse(data));
+        return true;
+    }
     else {console.log('unknown command'); sendResponse('command unknown')}
 });
 

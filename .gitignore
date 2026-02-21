@@ -33,6 +33,7 @@ data.json
 html-snapshots/
 
 **/test-site/*
+test-results/
 
 
 *.pem

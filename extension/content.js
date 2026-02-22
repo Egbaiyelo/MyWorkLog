@@ -22,7 +22,10 @@ import { addSite, startNavigationListener } from "./files/sitelog";
 
 //- only when once logged in (this ensures right path to home)
 //- verify how sitechange happened
-addSite();
+
+
+// addSite();
+
 startNavigationListener();
 
 
@@ -137,6 +140,10 @@ function siteStatus() {
 const utilityBarObserver = new MutationObserver(() => {
     const utilButtonBar = document.querySelector('[data-automation-id="utilityButtonBar"]');
     if (utilButtonBar) {
+
+        // sitelog logged in site
+        addSite();
+
         const myWorkLogButton = utilButtonBar.querySelector('#myWorkLog-button-div');
         const barDivider = document.querySelector('#myWorkLog-divider-div')
 

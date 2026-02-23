@@ -45,11 +45,19 @@ export function addSite() {
     });
 
     // Example full format
+    // >>>> Tenant domain
     // "https://bmo.wd3.myworkdayjobs.com/en-US/External/userHome"
+    // >>>> API route
+    // "https://bmo.wd3.myworkdayjobs.com/en-US/External/userHome"
+    
+// wday/cxs/talentmanagementsolution/JonasSoftwareCanada/applications?type=active&offset=0&limit=4
+// 
+// https://bmo.wd3.myworkdayjobs.com/wday/cxs/bmo/External/applications?type=active&offset=0&limit=4
+// https://walmart.wd5.myworkdayjobs.com/wday/cxs/walmart/WalmartExternal/applications?type=active&offset=0&limit=4
 }
 
 
-//- When you apply to a job, log it immediately
+//- When you apply to a job, log it immediately, everytime we got to candidate home, fetch api
 export function addAppliedJob() {
 
 }

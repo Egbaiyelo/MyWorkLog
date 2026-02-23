@@ -13,6 +13,8 @@
 
 // })
 
+import { fetchAllAplications } from "./bkgutils.js";
+
 const NATIVE_HOST = 'com.me.my_worklog';
 
 // maybe the action and message should be the same string
@@ -56,7 +58,34 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
 
         return true;
     }
+    else if (message.action === 'fetchApi') {
+        const apiUrl = message.url;
+
+        fetchAllAplications(apiUrl)
+            .then(data => sendResponse(data));
+
+        return true;
+    }
     else {console.log('unknown command'); sendResponse('command unknown')}
 });
 
+
+
+
+
+
+// chrome.alarms.create("pollWorkday", {
+//   periodInMinutes: 5
+// });
+
+// chrome.alarms.onAlarm.addListener(async (alarm) => {
+//   if (alarm.name !== "pollWorkday") return;
+
+//   try {
+//     const data = await fetchApplications();
+//     console.log("Fetched:", data);
+//   } catch (e) {
+//     console.error("Fetch failed", e);
+//   }
+// });
 

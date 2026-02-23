@@ -26,7 +26,8 @@ import { addSite, startNavigationListener } from "./files/sitelog";
 
 // addSite();
 
-startNavigationListener();
+/////////////////////////////////////////////////////////////////
+// startNavigationListener();
 
 
 // siteStatus();
@@ -137,6 +138,8 @@ function siteStatus() {
 
 // Issue -> Might move buttons somewhere else, login/register button and then the home button
 
+let ran = false
+
 const utilityBarObserver = new MutationObserver(() => {
     const utilButtonBar = document.querySelector('[data-automation-id="utilityButtonBar"]');
     if (utilButtonBar) {
@@ -145,7 +148,18 @@ const utilityBarObserver = new MutationObserver(() => {
         addSite();
 
         const myWorkLogButton = utilButtonBar.querySelector('#myWorkLog-button-div');
-        const barDivider = document.querySelector('#myWorkLog-divider-div')
+        const barDivider = document.querySelector('#myWorkLog-divider-div');
+
+        // where to put this
+        if (!ran) {
+
+            console.log('%%%%%%%%%%%%%%%%%%', 'here')
+            chrome.runtime.sendMessage({ action: "fetchApi", url: "https://td.wd3.myworkdayjobs.com/en-US/TD_Bank_Careers/userHome" },
+                (response) => {
+                    console.log("%%%", response);
+                })
+            ran = true
+        }
 
         // ensure its last
         //- might not have to run

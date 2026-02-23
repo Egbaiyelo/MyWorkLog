@@ -13,7 +13,7 @@
 
 // })
 
-import { fetchAll } from "./bkgutils.js";
+import { fetchAllAplications } from "./bkgutils.js";
 
 const NATIVE_HOST = 'com.me.my_worklog';
 
@@ -58,17 +58,12 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
 
         return true;
     }
-    //- might move to another file if full
     else if (message.action === 'fetchApi') {
         const apiUrl = message.url;
-        console.log('!!!!!!!!!!!!!!!!!!got')
 
-        fetchAll(apiUrl, 4, 4)
+        fetchAllAplications(apiUrl)
             .then(data => sendResponse(data));
 
-        // fetch(apiUrl)
-        //     .then(res => res.json())
-        //     .then(data => sendResponse(data));
         return true;
     }
     else {console.log('unknown command'); sendResponse('command unknown')}

@@ -1,7 +1,6 @@
 
 async function fetchApplicationData(apiUrl, type, offset, limit) {
-    console.log('^^^^^^working')
-    const url = `` +
+    const url = `https://td.wd3.myworkdayjobs.com/wday/cxs/td/TD_Bank_Careers/applications` +
         // apiUrl + 
         `?type=${type}&offset=${offset}&limit=${limit}`;
 
@@ -21,10 +20,31 @@ async function fetchApplicationData(apiUrl, type, offset, limit) {
 }
 
 // Fetches all the data
-export async function fetchAll(apiUrl, offset = 4, limit = 4) {
+export async function fetchAllAplications(apiUrl, offset = 0, limit = 4) {
 
-    const activeData = await fetchApplicationData(apiUrl, 'active', 4, 4);
-    const inactiveData = await fetchApplicationData(apiUrl, 'inactive', 4, 4);
+    const activeData = await fetchTab('active');
+    const inactiveData = await fetchTab('inactive');
+    const now = new Date();
 
-    return { activeData, inactiveData, fetchedAt: Date };
+    async function fetchTab(type) {
+        let response = await fetchApplicationData(apiUrl, type, offset, limit);
+        let data = response.data;
+        offset += limit;
+
+        while (response.total > offset) {
+            
+            let extraData = await fetchApplicationData(apiUrl, type, offset, limit);
+            data.push(...extraData.data)
+            console.log(data)
+            offset += limit;
+        }
+        return data;
+    }
+
+    console.log("Here(((((((((((((99999")
+    console.log({ activeData, inactiveData, fetchedAt: now.toLocaleString() })
+    return { activeData, inactiveData, fetchedAt: now.toLocaleString() };
 }
+
+
+

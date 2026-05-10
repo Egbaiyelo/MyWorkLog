@@ -25,7 +25,8 @@ html-snapshots/
 data.json
 
 **/test-site/*
+test-results/
 
-# Extension files
-*.crx
+
 *.pem
+*.crx

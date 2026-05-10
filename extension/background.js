@@ -13,8 +13,9 @@
 
 // })
 
-let user_signed_in = false;
-const NATIVE_HOST = 'com.me.my_workday';
+import { fetchAllAplications } from "./bkgutils.js";
+
+const NATIVE_HOST = 'com.me.my_worklog';
 
 // maybe the action and message should be the same string
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
@@ -33,7 +34,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     }
     else if (message.action === 'getCredentials') {
 
-        chrome.runtime.sendNativeMessage('com.me.my_workday', { action: '/get-credentials' }, (response) => {
+        chrome.runtime.sendNativeMessage(NATIVE_HOST, { action: '/get-credentials' }, (response) => {
             if (chrome.runtime.lastError) {
                 console.error('Native messaging error:', chrome.runtime.lastError.message);
             }
@@ -46,7 +47,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     }
     else if (message.action === 'getData') {
 
-        chrome.runtime.sendNativeMessage('com.me.my_workday', { action: '/scrape' }, (response) => {
+        chrome.runtime.sendNativeMessage(NATIVE_HOST, { action: '/scrape' }, (response) => {
             if (chrome.runtime.lastError) {
                 console.error('Native messaging error:', chrome.runtime.lastError.message);
             }
@@ -58,7 +59,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
         return true;
     }
     else if (message.action === 'addSite') {
-        chrome.runtime.sendNativeMessage('com.me.my_workday', { action: '/add-site', data: message.data }, (response) => {
+        chrome.runtime.sendNativeMessage(NATIVE_HOST, { action: '/add-site', data: message.data }, (response) => {
             console.log('addsite command received');
             if (chrome.runtime.lastError) {
                 console.error('Native messaging error:', chrome.runtime.lastError.message);
@@ -67,6 +68,14 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
             console.log('Received add site data from native app:', response);
             sendResponse(response.result);
         })
+
+        return true;
+    }
+    else if (message.action === 'fetchApi') {
+        const apiUrl = message.url;
+
+        fetchAllAplications(apiUrl)
+            .then(data => sendResponse(data));
 
         return true;
     }
@@ -118,3 +127,21 @@ chrome.identity.onSignInChanged.addListener(function (id, status) {
 //             });
 //     });
 // }
+
+
+
+
+// chrome.alarms.create("pollWorkday", {
+//   periodInMinutes: 5
+// });
+
+// chrome.alarms.onAlarm.addListener(async (alarm) => {
+//   if (alarm.name !== "pollWorkday") return;
+
+//   try {
+//     const data = await fetchApplications();
+//     console.log("Fetched:", data);
+//   } catch (e) {
+//     console.error("Fetch failed", e);
+//   }
+// });

@@ -15,6 +15,11 @@ export function addSite() {
     const segments = window.location.href.split('/');
     const baseURL = segments.slice(0, 5).join('/');
 
+    const pathSegments = segments.filter(segment =>
+        segment && !/^[a-z]{2}-[A-Z]{2}$/.test(segment)
+    );
+    const siteId = pathSegments[0];
+
     // Save to local
     // Redundant storage, given some may not have the app or maybe the app isnt working, it at least keeps them 
     // in local storage first
@@ -33,7 +38,10 @@ export function addSite() {
             chrome.runtime.sendMessage({ action: "siteChange", data: { companyName, url: baseURL, oldUrl: companySites[companyName] } });
         }
         // Update or insert
-        companySites[companyName] = baseURL;
+        companySites[companyName] = {
+            siteUrl: baseURL,
+            apiUrl: `${urlObj.origin}/wday/cxs/${tenant}/${siteId}/`
+        };
 
         chrome.storage.local.set({ companySites }, function () {
             console.log(`Saved ${companyName}: ${baseURL}`);
@@ -49,11 +57,15 @@ export function addSite() {
     // "https://bmo.wd3.myworkdayjobs.com/en-US/External/userHome"
     // >>>> API route
     // "https://bmo.wd3.myworkdayjobs.com/en-US/External/userHome"
-    
-// wday/cxs/talentmanagementsolution/JonasSoftwareCanada/applications?type=active&offset=0&limit=4
-// 
-// https://bmo.wd3.myworkdayjobs.com/wday/cxs/bmo/External/applications?type=active&offset=0&limit=4
-// https://walmart.wd5.myworkdayjobs.com/wday/cxs/walmart/WalmartExternal/applications?type=active&offset=0&limit=4
+
+    // wday/cxs/talentmanagementsolution/JonasSoftwareCanada/applications?type=active&offset=0&limit=4
+    // 
+    // https://bmo.wd3.myworkdayjobs.com/wday/cxs/bmo/External/applications?type=active&offset=0&limit=4
+    // https://walmart.wd5.myworkdayjobs.com/wday/cxs/walmart/WalmartExternal/applications?type=active&offset=0&limit=4
+
+
+
+    // https://td.wd3.myworkdayjobs.com/en-US/TD_Bank_Careers/job/7250-Mile-End%2C-Montreal%2C-Quebec/Bilingual-Contact-Centre-Rep-IV---Money-In-Services_R_1467617-1/apply/autofillWithResume?source=LinkedIn
 }
 
 
@@ -154,7 +166,7 @@ function extractJobDetails(appSection) {
 export function startNavigationListener() {
 
     const handleNavigation = (url) => {
-        if (url.includes('/userHome')){
+        if (url.includes('/userHome')) {
             // console.log("Checking page now")
             checkApplicationTable();
         }

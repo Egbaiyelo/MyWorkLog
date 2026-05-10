@@ -146,9 +146,10 @@ const utilityBarObserver = new MutationObserver(() => {
         
         const myWorkLogButton = utilButtonBar.querySelector('#myWorkLog-button-div');
         const barDivider = document.querySelector('#myWorkLog-divider-div');
+        const accountIdentifier = document.querySelector('[data-automation-id="utilityButtonAccountTasksMenu"]')
         
         //-! if at home page
-        if (!ran) {
+        if (!ran && accountIdentifier) {
 
             // sitelog logged in site
             addSite();
@@ -211,3 +212,4 @@ console.log("##################################")
 // addSite();
 
 //#endregion
+

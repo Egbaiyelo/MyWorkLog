@@ -19,7 +19,8 @@
   "type": "module",
   "main": "extension/content.js",
   "scripts": {
-    "build": "node build.js",
+    "dev": "node build.js",
+    "build": "node build.js --prod",
     "test:unit": "vitest run",
     "test:e2e": "playwright test .spec.",
     "test:ui": "playwright test --ui",
@@ -30,5 +31,8 @@
     "esbuild": "^0.27.3",
     "jest-chrome": "^0.8.0",
     "vitest": "^4.0.18"
+  },
+  "dependencies": {
+    "esbuild-sass-plugin": "^3.7.0"
   }
 }

@@ -1,0 +1,182 @@
+// 1. Variables - Change once, update everywhere
+$border-color: #e2e8f0;
+$text-main: #1e293b;
+$text-muted: #64748b;
+$bg-light: #f8fafc;
+$black: black;
+
+:root {
+    font-family: 'Inter', sans-serif;
+}
+
+main {
+    padding: 2rem;
+}
+
+// 2. Nesting with the & operator
+.company-card {
+    border: .2em solid $black;
+    border-radius: 1em;
+    display: flex;
+    flex-direction: column;
+
+    &-header {
+        padding: 1em;
+        border-bottom: .2em solid $black;
+        
+        > div { 
+            display: flex; 
+            gap: 0; 
+        }
+    }
+
+    &-element {
+        padding: 1em;
+        display: flex;
+        gap: 0;
+    }
+}
+
+// 3. Shared Widths via Nesting
+.job {
+    &-title { width: 35%; flex-shrink: 0; display: inline-block; }
+    &-req   { width: 20%; flex-shrink: 0; display: inline-block; }
+    &-status{ width: 25%; flex-shrink: 0; display: inline-block; }
+}
+
+.date-submitted {
+    width: 20%;
+    flex-shrink: 0;
+    display: inline-block;
+}
+
+// 4. Component Blocks
+#company-list {
+    background-color: $bg-light;
+    border-radius: 2em;
+    padding: 2rem;
+    border: 1px solid $border-color;
+    margin: 20px 0;
+
+    h3 {
+        margin: 0 0 1.5rem 0;
+        font-family: sans-serif;
+        color: #334155;
+        font-size: 1.2rem;
+    }
+
+    &-div {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 2rem;
+        padding: 1rem 0;
+
+        > div {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            cursor: pointer;
+            background: white;
+            border: 1px solid $border-color;
+            border-radius: 8px;
+            padding: 1rem;
+            justify-content: center;
+            min-width: 100px;
+            transition: transform 0.2s, box-shadow 0.2s;
+
+            &:hover {
+                transform: translateY(-3px);
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+                border-color: #cbd5e1;
+            }
+        }
+
+        img {
+            height: 32px;
+            width: auto;
+            object-fit: contain;
+            margin-bottom: 0.75rem;
+            transition: 0.3s;
+        }
+
+        span {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.025em;
+        }
+    }
+}
+
+// 5. Job Tracker Grid
+.job-tracker-container {
+    background: white;
+    border: 1px solid $border-color;
+    border-radius: 12px;
+    overflow: hidden;
+
+    .job-header, .job-row {
+        display: grid;
+        grid-template-columns: 2fr 1fr 1fr 1fr;
+        padding: 12px 20px;
+    }
+
+    .job-header {
+        background-color: $bg-light;
+        border-bottom: 1px solid $border-color;
+        font-weight: 600;
+        color: #475569;
+        font-size: 0.85rem;
+        text-transform: uppercase;
+        //letter-spacing: 0.05em;
+    }
+
+    .job-row {
+        padding: 16px 20px;
+        border-bottom: 1px solid #f1f5f9;
+        align-items: center;
+        transition: background-color 0.2s;
+
+        &:last-child { border-bottom: none; }
+        &:hover { background-color: $bg-light; }
+    }
+}
+
+.status-badge {
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    display: inline-block;
+
+    &.pending {
+        background-color: #fef3c7;
+        color: #92400e;
+    }
+
+    &.interview {
+        background-color: #dcfce7;
+        color: #166534;
+    }
+}
+
+
+
+
+.job-title-cell strong {
+    display: block;
+    color: #1e293b;
+    font-size: 1rem;
+}
+
+.company-subtext {
+    font-size: 0.75rem;
+    color: #94a3b8;
+}
+
+.job-req-cell, .job-date-cell {
+    color: #64748b;
+    font-size: 0.9rem;
+}

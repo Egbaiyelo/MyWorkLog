@@ -143,15 +143,16 @@ let ran = false
 const utilityBarObserver = new MutationObserver(() => {
     const utilButtonBar = document.querySelector('[data-automation-id="utilityButtonBar"]');
     if (utilButtonBar) {
-
-        // sitelog logged in site
-        addSite();
-
+        
         const myWorkLogButton = utilButtonBar.querySelector('#myWorkLog-button-div');
         const barDivider = document.querySelector('#myWorkLog-divider-div');
+        const accountIdentifier = document.querySelector('[data-automation-id="utilityButtonAccountTasksMenu"]')
+        
+        //-! if at home page
+        if (!ran && accountIdentifier) {
 
-        // where to put this
-        if (!ran) {
+            // sitelog logged in site
+            addSite();
 
             console.log('%%%%%%%%%%%%%%%%%%', 'here')
             chrome.runtime.sendMessage({ action: "fetchApi", url: "https://td.wd3.myworkdayjobs.com/en-US/TD_Bank_Careers/userHome" },

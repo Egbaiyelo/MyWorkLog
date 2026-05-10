@@ -1,5 +1,22 @@
 # MyWorkLog
 
+<!-- logo -->
+
+<!-- dividing bar -->
+
+<!-- description, its this, do this and ths happens 
+the problem
+the solution -->
+
+<!-- major features
+ -->
+
+<!-- get started -->
+
+<!-- screenshots -->
+<!-- screenshots should be more involved not just hyper focused -->
+
+<!-- add scss and make look like greenhouse -->
 
 Browser extension* to provide a 'jobSeeker-side' dashboard for the job seeking process.
 It helps manage applications across workday clients, collecting data on status, etc.

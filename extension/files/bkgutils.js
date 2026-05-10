@@ -28,6 +28,7 @@ export async function fetchAllAplications(apiUrl, offset = 0, limit = 4) {
 
     async function fetchTab(type) {
         let response = await fetchApplicationData(apiUrl, type, offset, limit);
+        console.log(response)
         let data = response.data;
         offset += limit;
 

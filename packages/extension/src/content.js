@@ -1,7 +1,7 @@
 
-import { AddLinkToHome } from "./files/dom";
+import { AddLinkToHome } from "./icons/files/dom";
 // import { signIn, createAccount } from "./files/auth"
-import { addSite, startNavigationListener } from "./files/sitelog";
+import { addSite, startNavigationListener } from "./icons/files/sitelog";
 // maybe just once file like index which gives it all as myWorklog.xy
 
 // Add site

@@ -1,0 +1,29 @@
+{
+  "name": "myworkday-extension",
+  "version": "0.1.0",
+  "description": "Job tracker extension for workday sites",
+  "license": "UNLICENSED",
+  "keywords": [
+    "\"chrome-extension\"",
+    "\"manifest-v3\""
+  ],
+  "type": "module",
+  "homepage": "https://github.com/Egbaiyelo/MyWorkLog#readme",
+  "scripts": {
+    "build": "node build --prod",
+    "dev": "node build",
+    "test:unit": "vitest run",
+    "test:e2e": "playwright test .spec.",
+    "test:ui": "playwright test --ui",
+    "test": "npm run test:unit && npm run test:e2e"
+  },
+    "devDependencies": {
+    "@playwright/test": "^1.58.2",
+    "esbuild": "^0.27.3",
+    "jest-chrome": "^0.8.0",
+    "vitest": "^4.0.18"
+  },
+  "dependencies": {
+    "esbuild-sass-plugin": "^3.7.0"
+  }
+}

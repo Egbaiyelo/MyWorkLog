@@ -3,6 +3,6 @@
 
 test-app/ export-ignore
 test-extension/ export-ignore
-extension.TODO.md export-ignore
+*.TODO.md export-ignore
 
 tests/*.ts linguist-language=typescript

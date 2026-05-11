@@ -1,25 +1,18 @@
 {
   "name": "myworklog-app",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "description": "Job tracker app for workday sites",
   "main": "content.js",
   "directories": {},
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "docs": "jsdoc -r . -d out"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/Egbaiyelo/MyWorkLog.git"
-  },
-  "keywords": [],
-  "author": "Egbaiyelo Moteniola",
-  "license": "ISC",
-  "type": "commonjs",
-  "bugs": {
-    "url": "https://github.com/Egbaiyelo/MyWorkLog/issues"
+    "docs": "jsdoc -r . -d out",
+    "build": ""
   },
   "homepage": "https://github.com/Egbaiyelo/MyWorkLog#readme",
+  "keywords": [],
+  "author": "Egbaiyelo Moteniola",
+  "type": "commonjs",
   "dependencies": {
     "cors": "^2.8.5",
     "express": "^5.1.0",

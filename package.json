@@ -1,7 +1,13 @@
 {
-  "name": "myworklog",
+  "name": "myworklog-project",
   "version": "0.1.0",
-  "description": "Job tracker for workday sites",
+  "description": "Job tracker for workday sites with app and extension",
+  "private": true,
+  "license": "UNLICENSED",
+  "author": "Egbaiyelo Moteniola",
+  "workspaces": [
+    "packages/*"
+  ],
   "keywords": [
     "\"chrome-extension\"",
     "\"manifest-v3\""
@@ -14,25 +20,10 @@
     "type": "git",
     "url": "git+https://github.com/Egbaiyelo/MyWorkLog.git"
   },
-  "license": "UNLICENSED",
-  "author": "Egbaiyelo Moteniola",
-  "type": "module",
-  "main": "extension/content.js",
   "scripts": {
-    "dev": "node build.js",
-    "build": "node build.js --prod",
-    "test:unit": "vitest run",
-    "test:e2e": "playwright test .spec.",
-    "test:ui": "playwright test --ui",
-    "test": "npm run test:unit && npm run test:e2e"
-  },
-  "devDependencies": {
-    "@playwright/test": "^1.58.2",
-    "esbuild": "^0.27.3",
-    "jest-chrome": "^0.8.0",
-    "vitest": "^4.0.18"
-  },
-  "dependencies": {
-    "esbuild-sass-plugin": "^3.7.0"
+    "build:app": "npm run build -w app",
+    "build:ext": "npm run build -w extension",
+    "build": "npm run build --workspaces",
+    "test:ext": "npm run test -w extension"
   }
 }

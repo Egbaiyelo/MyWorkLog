@@ -7,6 +7,9 @@
     "\"chrome-extension\"",
     "\"manifest-v3\""
   ],
+  "files": [
+    "dist"
+  ],
   "type": "module",
   "homepage": "https://github.com/Egbaiyelo/MyWorkLog#readme",
   "scripts": {
@@ -15,11 +18,12 @@
     "test:unit": "vitest run",
     "test:e2e": "playwright test .spec.",
     "test:ui": "playwright test --ui",
-    "test": "npm run test:unit && npm run test:e2e"
+    "test": "pnpm test:unit && pnpm test:e2e"
   },
-    "devDependencies": {
+  "devDependencies": {
     "@playwright/test": "^1.58.2",
     "esbuild": "^0.27.3",
+    "esbuild-plugin-copy": "^2.1.1",
     "jest-chrome": "^0.8.0",
     "vitest": "^4.0.18"
   },

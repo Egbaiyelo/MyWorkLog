@@ -13,7 +13,7 @@
 
 // })
 
-import { fetchAllAplications } from "./icons/files/bkgutils.js";
+import { fetchAllAplications } from "./files/bkgutils.js";
 
 let user_signed_in = false;
 const NATIVE_HOST = 'com.me.my_workday';

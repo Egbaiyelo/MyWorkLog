@@ -21,9 +21,17 @@
     "url": "git+https://github.com/Egbaiyelo/MyWorkLog.git"
   },
   "scripts": {
-    "build:app": "npm run build -w app",
-    "build:ext": "npm run build -w extension",
-    "build": "npm run build --workspaces",
-    "test:ext": "npm run test -w extension"
+    "build:app": "pnpm build -w app",
+    "build:ext": "pnpm build -w extension",
+    "build": "pnpm -r build --workspaces",
+    "test:ext": "pnpm test -w extension"
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "esbuild",
+      "puppeteer",
+      "@parcel/watcher"
+    ]
+
   }
 }

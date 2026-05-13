@@ -1,5 +1,11 @@
 
-import { AddLinkToHome } from "./files/dom";
+// page observes changes in body and then adds the elements
+//! Change it so it has nothing else
+//! all added elements include .myworkday-element
+const ELEMENT_TAG = "myWorkday-element"
+
+
+import { AddLinkToHome, AddSaveButton } from "./files/dom";
 // import { signIn, createAccount } from "./files/auth"
 import { addSite, startNavigationListener } from "./files/sitelog";
 // maybe just once file like index which gives it all as myWorklog.xy
@@ -192,7 +198,6 @@ utilityBarObserver.observe(document.body, {
     subtree: true
 });
 
-console.log("##################################")
 
 
 // $$ auth logic
@@ -213,3 +218,32 @@ console.log("##################################")
 
 //#endregion
 
+
+
+///// NEW
+// if page has job details, add save button
+//! maybe a hierarchy of what kind of page we are on then what we shpuld do, form page, job details/posting page, etc
+//! get the page from the url then use mutation observers
+const jobDetailsObserver = new MutationObserver(() => {
+
+    const id = 'myWorkday-saveBtn'
+    const targetelemnt = document.getElementById(id);
+
+    // Works on both the details page and postings page
+    const jobDetails = document.querySelector('[data-automation-id="jobDetails"]') || document.querySelector('[data-automation-id="jobPostingPage"]');
+    if (jobDetails && !targetelemnt) {
+
+        //! Maybe a better way to get the button?
+        const applyButton = document.querySelector('a[href*="/apply"]');
+        const newDiv = document.createElement('div')
+        newDiv.className = ELEMENT_TAG;
+        AddSaveButton(newDiv, id);
+        console.log('this is the new div', newDiv)
+        applyButton.insertAdjacentElement('afterend', newDiv);
+    }
+})
+
+jobDetailsObserver.observe(document.body, {
+    childList: true,
+    subtree: true
+});

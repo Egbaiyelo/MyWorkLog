@@ -15,6 +15,7 @@
             "js": [
                 "content.bundle.js"
             ],
+            "css": ["style.css"],
             "type": "module",
             "run_at": "document_idle"
         }

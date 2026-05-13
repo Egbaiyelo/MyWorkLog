@@ -24,7 +24,8 @@ esbuild.build({
             assets: [
                 { from: ['./src/manifest.json'], to: ['./'], },
                 { from: ['./src/**/*.html'], to: ['./'], },
-                { from: ['./src/icons/*'], to: ['./icons'] }
+                { from: ['./src/icons/*'], to: ['./icons'] },
+                { from: ['./src/style.css'], to: ['./'] }
             ],
         }),
     ],

@@ -183,3 +183,26 @@ export function AddLinkToHome(utilityButtonBar, targetColor) {
         utilityButtonBar.insertBefore(targetButtonDiv, null);
     }
 }
+
+
+/// Adds the save button
+//! adds to 
+export function AddSaveButton(containerBar, id){
+    
+    const saveBtn = document.createElement('button');
+    saveBtn.innerText = 'Save';
+    saveBtn.type = 'button';
+    saveBtn.id = id;
+
+    saveBtn.classList.add('save-btn-outline');
+
+    // Click Functionality 
+    saveBtn.addEventListener('click', () => {
+        console.log('Save button clicked!');
+        
+        // chrome.storage.sync.set({ key: value }, () => { ... });
+    });
+    console.log('this is save button', saveBtn, containerBar)
+
+    containerBar.appendChild(saveBtn);
+}

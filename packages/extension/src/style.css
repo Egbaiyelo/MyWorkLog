@@ -1,0 +1,25 @@
+.save-btn-outline {
+    /* background-color: var(--ext-brand-bg, #005cb9);
+    color: var(--ext-brand-color, #ffffff);
+    border: 2px solid var(--ext-brand-bg, #005cb9); */
+    border-radius: 100px;
+    
+    padding: 10px 24px;
+    font-size: 1rem;
+    font-weight: 600;
+    border-radius: 8px;
+    cursor: pointer;
+    
+    transition: all 0.2s ease-in-out;
+}
+
+.save-btn-outline:hover {
+    background-color: #0076ff;
+    color: #ffffff;
+}
+
+.save-btn-outline:active {
+    transform: scale(0.98);
+    background-color: #005ecb;
+    border-color: #005ecb;
+}

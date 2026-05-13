@@ -3,6 +3,8 @@
 //! Change it so it has nothing else
 //! all added elements include .myworkday-element
 const ELEMENT_TAG = "myWorkday-element"
+let site_color = '#005cb9';
+let site_bgColor = '#ffffff';
 
 
 import { AddLinkToHome, AddSaveButton } from "./files/dom";
@@ -10,11 +12,31 @@ import { AddLinkToHome, AddSaveButton } from "./files/dom";
 import { addSite, startNavigationListener } from "./files/sitelog";
 // maybe just once file like index which gives it all as myWorklog.xy
 
+
+// Get global theme
 // Add site
 // Login
 // 
 // 
 
+
+function initializeGlobalTheme() {
+    const brandElement = document.querySelector('[data-automation-id="utilityButtonBar"]');
+    
+    if (brandElement) {
+        const styles = window.getComputedStyle(brandElement);
+        
+        site_color = styles.color;           
+        site_bgColor = styles.backgroundColor; 
+        
+        // Saving them globally to the :root (html element) as CSS variables
+        // document.documentElement.style.setProperty('--ext-brand-color', site_color);
+        // document.documentElement.style.setProperty('--ext-brand-bg', site_bgColor);
+        // document.documentElement.style.setProperty('--ext-brand-border', site_bgColor);
+    }
+}
+
+initializeGlobalTheme();
 
 //-! need a lot better error handling between connections
 
@@ -149,17 +171,18 @@ let ran = false
 const utilityBarObserver = new MutationObserver(() => {
     const utilButtonBar = document.querySelector('[data-automation-id="utilityButtonBar"]');
     if (utilButtonBar) {
-        
+
         const myWorkLogButton = utilButtonBar.querySelector('#myWorkLog-button-div');
         const barDivider = document.querySelector('#myWorkLog-divider-div');
         const accountIdentifier = document.querySelector('[data-automation-id="utilityButtonAccountTasksMenu"]')
-        
+
         //-! if at home page
         if (!ran && accountIdentifier) {
 
             // sitelog logged in site
             addSite();
 
+            //! ???
             console.log('%%%%%%%%%%%%%%%%%%', 'here')
             chrome.runtime.sendMessage({ action: "fetchApi", url: "https://td.wd3.myworkdayjobs.com/en-US/TD_Bank_Careers/userHome" },
                 (response) => {
@@ -179,10 +202,10 @@ const utilityBarObserver = new MutationObserver(() => {
         }
         else {
             // Getting the base text color for blending in
+            //! move to top and make color global
             const utilButton = utilButtonBar.querySelector('button');
             const utilColor = getComputedStyle(utilButton).color;
-            // console.log("util button", utilButton, utilColor);
-            // console.log("util button color", utilColor);
+            site_text_color = utilColor;
 
             //- Probably check for my element instead and add it if not there based on Status
             AddLinkToHome(utilButtonBar, utilColor);
@@ -228,18 +251,39 @@ const jobDetailsObserver = new MutationObserver(() => {
 
     const id = 'myWorkday-saveBtn'
     const targetelemnt = document.getElementById(id);
+    // const utilButtonBar = document.querySelector('[data-automation-id="utilityButtonBar"]');
+    // site_color = getComputedStyle(utilButtonBar).color;
+
 
     // Works on both the details page and postings page
-    const jobDetails = document.querySelector('[data-automation-id="jobDetails"]') || document.querySelector('[data-automation-id="jobPostingPage"]');
+    const jobDetails = document.querySelector('[data-automation-id="jobDetails"]') 
+    || document.querySelector('[data-automation-id="jobPostingPage"]')
+    || document.querySelector('[data-automation-id="jobPostingStickyWrapper"]');
+
     if (jobDetails && !targetelemnt) {
 
         //! Maybe a better way to get the button?
         const applyButton = document.querySelector('a[href*="/apply"]');
-        const newDiv = document.createElement('div')
-        newDiv.className = ELEMENT_TAG;
-        AddSaveButton(newDiv, id);
-        console.log('this is the new div', newDiv)
-        applyButton.insertAdjacentElement('afterend', newDiv);
+
+        if (applyButton) {
+
+            const parent = applyButton.parentElement;
+            parent.style.position = 'relative';
+
+            const rect = applyButton.getBoundingClientRect();
+
+    
+            const newDiv = document.createElement('div');
+            newDiv.className = ELEMENT_TAG;
+            newDiv.style.position = 'absolute';
+            newDiv.style.left = (rect.width + 12) + 'px'; 
+            newDiv.style.color = site_color;
+            newDiv.style.backgroundColor = site_bgColor;
+            newDiv.style.top = '0';
+            AddSaveButton(newDiv, id);
+            console.log('this is the new div', newDiv)
+            applyButton.insertAdjacentElement('afterend', newDiv);
+        }
     }
 })
 
@@ -247,3 +291,4 @@ jobDetailsObserver.observe(document.body, {
     childList: true,
     subtree: true
 });
+

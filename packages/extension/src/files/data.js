@@ -88,21 +88,22 @@ export function removeFromSaved(successCallback) {
 
 
 // Extract Tenant and SiteId dynamically from the URL path
+//! maybe move data writing to background for race conditions
 function getWorkdayRouteMetadata() {
     const origin = window.location.origin; // e.g., "https://bmo.wd3.myworkdayjobs.com"
-    const segments = window.location.href.split('/');
+    const segments = window.location.href.split('/');  // e.g., [ "https:", "", "autodesk.wd1.myworkdayjobs.com", "en-US", "uni", "job", "Software-Engineer_REQ123" ]
     
     // Filter out en-US and all that
     const pathSegments = segments.filter(seg => 
         seg && !/^[a-z]{2}-[A-Z]{2}$/.test(seg) && !seg.includes('http') && !seg.includes('.')
-    );
+    ); // e.g., [ "uni", "job", "Software-Engineer_REQ123" ]
 
     // e.g. domain/en-US/SiteId/job...
-    const tenant = getCompanyKey();
-    const siteId = pathSegments[0] || 'External';
+    const tenant = getCompanyKey();  // company name
+    const siteId = pathSegments[0]; // the company workdomain
 
     return {
-        siteUrl: segments.slice(0, 5).join('/'), 
+        siteUrl: `${origin}/${siteId}`, 
         apiUrl: `${origin}/wday/cxs/${tenant}/${siteId}/` 
     };
 }
@@ -116,9 +117,12 @@ export function syncCompanySiteData() {
     const company = getCompanyKey();
     const meta = getWorkdayRouteMetadata();
 
-    chrome.storage.local.get([company], (result) => {
+    chrome.storage.local.get([company, "companySites"], (result) => {
         const companyData = result[company] || { saved: {} };
+        const companyList = result["companySites"] || [];
         const oldUrl = companyData.siteUrl;
+
+        if (!companyList.includes(company)) companyList.push(company);
 
         //! necessary?
         // Alerting background script if the company root paths modified
@@ -132,8 +136,9 @@ export function syncCompanySiteData() {
         companyData.siteUrl = meta.siteUrl;
         companyData.apiUrl = meta.apiUrl;
 
-        chrome.storage.local.set({ [company]: companyData }, () => {
+        chrome.storage.local.set({ [company]: companyData, "companySites": companyList }, () => {
             console.log(`[Storage Sync] Synced ${company} configuration.`);
         });
     });
 }
+

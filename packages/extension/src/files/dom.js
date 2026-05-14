@@ -1,6 +1,9 @@
 
 
-//- Need to add to hamburger menu too in case it gets squashed or on mobile
+//! Need to add to hamburger menu too in case it gets squashed or on mobile
+//! page for dom stuff only
+
+import { addToSaved, isJobSaved, removeFromSaved } from "./data";
 
 
 // returns bardivider and button element
@@ -8,28 +11,20 @@ export function createHomeLink(targetColor = 'white') {
     // =======
     // AddLinkToHome(document.querySelector("[data-automation-id='utilityButtonBar']"))
 
-
     // Icon div and style
     const targetIcon = document.createElement('span');
+    targetIcon.classList.add('mwl-target-icon');
+    targetIcon.style.setProperty('--target-color', targetColor);
+
     // Fetching account icon
     fetch(chrome.runtime.getURL('icons/account-folder.svg'))
         .then(res => res.text())
         .then(svgContent => {
-            Object.assign(targetIcon.style, {
-                display: 'inline-block',
-                margin: '0 3px',
-                opacity: '0.5',
-                color: targetColor,
-                width: 20,
-                height: 20,
-                alt: 'Account icon'
-            });
 
             targetIcon.innerHTML = svgContent;
 
             // Overiding size
             const svg = targetIcon.querySelector('svg');
-            console.log('&&&svg', targetIcon)
             if (svg) {
                 svg.setAttribute('width', '20');
                 svg.setAttribute('height', '20');
@@ -38,20 +33,13 @@ export function createHomeLink(targetColor = 'white') {
 
     // Button text and style
     const targetText = document.createElement('span');
+    targetText.classList.add('mwl-target-text');
+    targetText.style.setProperty('--target-color', targetColor);
     targetText.textContent = "MyWorkLog";
-    Object.assign(targetText.style, {
-        color: targetColor,
-        fontSize: '12px',
-        fontWeight: '500',
-        lineHeight: '14px',
-        margin: '0px 3px',
-        opacity: '1',
-        textDecorationSkipInk: 'none'
-    })
-
 
     // Button
     const targetButton = document.createElement('button');
+    targetButton.classList.add('mwl-target-button');
     targetButton.setAttribute('aria-expanded', 'false');
     targetButton.setAttribute('aria-haspopup', 'listbox');
     targetButton.setAttribute('color', '#FFFFFF');
@@ -70,9 +58,11 @@ export function createHomeLink(targetColor = 'white') {
         textDecorationSkipInk: 'none',
         color: 'rgb(255, 255, 255)',
     })
+
     targetButton.append(targetIcon);
     //! extension context invalidated error
     targetButton.append(targetText);
+
     targetButton.onclick = () => {
         const homeURL = chrome.runtime.getURL('pages/home.bundle.html');
         window.open(homeURL);
@@ -80,76 +70,49 @@ export function createHomeLink(targetColor = 'white') {
 
 
     // Bardivider and style
-
     const barDivider = document.createElement('div');
+    barDivider.id = 'myWorkLog-divider-div';
+    barDivider.classList.add('mwl-bar-divider');
     barDivider.setAttribute('data-automation-id', 'utility-button-bar-divider');
     barDivider.setAttribute('color', '#FFFFFF');
-    barDivider.id = 'myWorkLog-divider-div';
-    // barDivider.setAttribute('color', targetColor);
-    Object.assign(barDivider.style, {
-        backgroundColor: targetColor,
-        height: ' 12px',
-        margin: ' 0px',
-        opacity: ' 0.5',
-        width: ' 1px'
-    })
-
-
+    barDivider.style.setProperty('--target-color', targetColor);
+    
+    // Target Button Div Wrapper
     const targetButtonDiv = document.createElement('div');
-    targetButtonDiv.setAttribute('data-automation-id', 'utilityButtonTarget');
-    targetButtonDiv.style.height = '21px';
-    targetButtonDiv.append(targetButton);
     targetButtonDiv.id = "myWorkLog-button-div";
-    Object.assign(targetButtonDiv.style, {
-        //- for style update
-        //- also add hover thingy for style update
-        // border: `1px solid ${targetColor}`,
-        // borderRadius: '2px',
-        // padding: '2px',
-        height: '21px'
-    })
+    targetButtonDiv.classList.add('mwl-target-button-div');
+    targetButtonDiv.setAttribute('data-automation-id', 'utilityButtonTarget');
+    targetButtonDiv.append(targetButton);
+    //! - for style update
+    //- also add hover thingy for style update
+    // border: `1px solid ${targetColor}`,
+    // borderRadius: '2px',
+    // padding: '2px',
 
     return { targetButtonDiv, barDivider }
 }
 
+
 //- add button and link later
 export function createAccountHelper(helperText, onClickHandler) {
     const container = document.createElement('div');
-    container.style.display = 'flex';
-    container.style.flexDirection = 'column';
-    container.style.alignItems = 'center';
-    container.style.marginTop = '20px';
+    container.classList.add('mwl-container');
 
     // OR Separator
     const separator = document.createElement('div');
-    separator.style.display = 'flex';
-    separator.style.alignItems = 'center';
-    separator.style.textAlign = 'center';
-    separator.style.color = '#999';
-    separator.style.fontSize = '12px';
-    separator.style.margin = '20px 0';
-    separator.style.width = '100%';
+    separator.classList.add('mwl-separator');
     separator.innerHTML = `
-        <span style="flex: 1; border-bottom: 1px solid #ccc; margin-right: 10px;"></span>
+        <span class="mwl-separator-line left"></span>
         <span>OR</span>
-        <span style="flex: 1; border-bottom: 1px solid #ccc; margin-left: 10px;"></span>
+        <span class="mwl-separator-line right"></span>
     `;
 
     // MyWorkLog Sign In Button
     const button = document.createElement('button');
     button.textContent = helperText;
-    button.style.padding = '10px 16px';
-    button.style.border = '1px solid #ccc';
-    button.style.borderRadius = '4px';
-    button.style.backgroundColor = '#f7f7f7';
-    button.style.cursor = 'pointer';
-    button.style.fontWeight = 'bold';
-    button.style.color = '#333';
-    button.style.display = 'flex';
-    button.style.alignItems = 'center';
-    button.style.gap = '8px';
+    button.classList.add('mwl-helper-button');
 
-    // icon
+    //! icon
     // const icon = document.createElement('img');
     // icon.src = chrome.runtime.getURL('icons/worklog-icon.svg'); 
     // icon.alt = 'WorkLog icon';
@@ -168,17 +131,14 @@ export function createAccountHelper(helperText, onClickHandler) {
     return container;
 }
 
+
 // Adds link to home page
 //! Expects utilitybuttonbar to be present
 export function AddLinkToHome(utilityButtonBar, targetColor) {
     const { targetButtonDiv, barDivider } = createHomeLink(targetColor);
-    // console.log(targetButtonDiv, barDivider)
-    // console.log('then', utilityButtonBar)
 
     //- Probably use mutation observer somehow to make sure its the last element
     if (utilityButtonBar) {
-        // console.log("inserting utility button bar")
-        // console.log({ "utilitybuttonbar I got": utilityButtonBar })
         utilityButtonBar.insertBefore(barDivider, null);
         utilityButtonBar.insertBefore(targetButtonDiv, null);
     }
@@ -187,23 +147,70 @@ export function AddLinkToHome(utilityButtonBar, targetColor) {
 
 /// Adds the save button
 //! adds to 
-export function AddSaveButton(containerBar, id){
-    
+export function AddSaveButton(containerBar, className, theme) {
+
     const saveBtn = document.createElement('button');
     saveBtn.innerText = 'Save';
     saveBtn.type = 'button';
-    saveBtn.id = id;
+    saveBtn.className = className;
+
+    saveBtn.style.whiteSpace = 'nowrap';
+    if (theme) {
+        Object.assign(saveBtn.style, theme);
+        saveBtn.style.border = 'none'; // Dont remove its just finicky
+
+        saveBtn.addEventListener('mouseenter', () => {
+            saveBtn.style.backgroundColor = theme.color; 
+            saveBtn.style.color = theme.backgroundColor;   
+            saveBtn.style.border = `2px solid ${theme.backgroundColor}`         
+        });
+        
+        saveBtn.addEventListener('mouseleave', () => {
+            saveBtn.style.backgroundColor = theme.backgroundColor;
+            saveBtn.style.color = theme.color;
+        });  
+    }
+
+    const bookmarkOutline = `<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m19 21-7-4-7 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16z"/></svg>`;
+    const bookmarkFilled  = `<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m19 21-7-4-7 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16z"/></svg>`;
+    
+    const showSaved = () => {
+        saveBtn.innerHTML = `${bookmarkFilled} <span style="margin-left: 8px;">Saved</span>`;
+        saveBtn.style.opacity = '0.7'; 
+    }
+    const showNotSaved = () => {
+        saveBtn.innerHTML = `${bookmarkOutline} <span style="margin-left: 8px;">Save</span>`;
+        saveBtn.style.opacity = '1.0';
+    }
+
+
+    // Interactive button
+    isJobSaved((saved) => {  
+        if (saved) {
+            showSaved();
+        } else {
+            showNotSaved();
+        }
+    });
+
+    // handle click action
+    saveBtn.addEventListener('click', () => {
+        isJobSaved((alreadySaved) => {
+            if (!alreadySaved) {
+
+                const titleText = document.querySelector('[data-automation-id="jobPostingHeader"]') ?.innerText || document.title;
+                addToSaved({ title: titleText });
+
+                showSaved();
+            } else {
+                removeFromSaved(() => {
+                    showNotSaved()
+                });
+            }
+        });
+    });
 
     saveBtn.classList.add('save-btn-outline');
-
-    // Click Functionality 
-    saveBtn.addEventListener('click', () => {
-        console.log('Save button clicked!');
-        
-        // chrome.storage.sync.set({ key: value }, () => { ... });
-    });
-    console.log('this is save button', saveBtn, containerBar)
-
     containerBar.appendChild(saveBtn);
 }
 

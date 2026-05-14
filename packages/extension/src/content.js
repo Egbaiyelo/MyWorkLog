@@ -3,8 +3,6 @@
 //! Change it so it has nothing else
 //! all added elements include .myworkday-element
 const ELEMENT_TAG = "myWorkday-element"
-// Get the site theme
-const SITE_THEME = { color: "#005cb9", bg: "#ffffff" };
 
 
 import { syncCompanySiteData } from "./files/data";
@@ -14,30 +12,11 @@ import { addSite, startNavigationListener } from "./files/sitelog";
 // maybe just once file like index which gives it all as myWorklog.xy
 
 
-// Get global theme
 // Add site
 // Login
 // 
 // 
 
-
-function initializeGlobalTheme() {
-    const brandElement = document.querySelector('[data-automation-id="utilityButtonBar"]');
-
-    if (brandElement) {
-        const styles = window.getComputedStyle(brandElement);
-
-        site_color = styles.color;
-        site_bgColor = styles.backgroundColor;
-
-        // Saving them globally to the :root (html element) as CSS variables
-        // document.documentElement.style.setProperty('--ext-brand-color', site_color);
-        // document.documentElement.style.setProperty('--ext-brand-bg', site_bgColor);
-        // document.documentElement.style.setProperty('--ext-brand-border', site_bgColor);
-    }
-}
-
-// initializeGlobalTheme();
 
 //-! need a lot better error handling between connections
 
@@ -46,8 +25,6 @@ function initializeGlobalTheme() {
 // The first functionality is adding sites to the watch list, so all sites with a workday domain
 // can be tracked and viewed anytime.
 
-// console.log("I work")
-// // const siteURL = window.location.href;
 
 //- only when once logged in (this ensures right path to home)
 //- verify how sitechange happened
@@ -158,7 +135,7 @@ function siteStatus() {
 }
 
 //! temp for now needs to be in observer
-syncCompanySiteData()
+syncCompanySiteData();
 
 //#endregion
 
@@ -246,7 +223,7 @@ utilityBarObserver.observe(document.body, {
 
 
 
-///// NEW
+///// NEW ----------------
 // if page has job details, add save button
 //! maybe a hierarchy of what kind of page we are on then what we shpuld do, form page, job details/posting page, etc
 //! get the page from the url then use mutation observers
@@ -254,8 +231,6 @@ const jobDetailsObserver = new MutationObserver(() => {
 
     const className = 'myWorkday-saveBtn'
     const targetelement = document.getElementById(className);
-    // const utilButtonBar = document.querySelector('[data-automation-id="utilityButtonBar"]');
-    // site_color = getComputedStyle(utilButtonBar).color;
 
     // Works on both the details page and postings page
     const jobDetails = document.querySelector('[data-automation-id="jobDetails"]')
@@ -274,10 +249,10 @@ const jobDetailsObserver = new MutationObserver(() => {
 
         const styles = window.getComputedStyle(applyButton);
         const theme = {
-            bg: styles.backgroundColor,
+            backgroundColor: styles.backgroundColor,
             color: styles.color,
+            borderRadius: styles.borderRadius,
 
-            //! do i need these
             height: styles.height,
             padding: styles.padding,
             opacity: styles.opacity,
@@ -296,7 +271,7 @@ const jobDetailsObserver = new MutationObserver(() => {
         newDiv.style.top = '0';
 
         //! maybe find way to remove theme and classname like maybe class is made up here for the container instead and savebutton has its own class internally
-        AddSaveButton(newDiv, className, SITE_THEME);
+        AddSaveButton(newDiv, className, theme);
         applyButton.insertAdjacentElement('afterend', newDiv);        
     }
 })

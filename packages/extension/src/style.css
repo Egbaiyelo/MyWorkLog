@@ -1,14 +1,21 @@
+/* ==========================================
+   Save Button Styles
+   ========================================== */
+
 .save-btn-outline {
     /* background-color: var(--ext-brand-bg, #005cb9);
     color: var(--ext-brand-color, #ffffff);
     border: 2px solid var(--ext-brand-bg, #005cb9); */
-    border-radius: 100px;
+    border-radius: 500px;
     
     padding: 10px 24px;
     font-size: 1rem;
     font-weight: 600;
     border-radius: 8px;
     cursor: pointer;
+    width: fit-content;
+    display: inline-flex;
+    align-items: center;
     
     transition: all 0.2s ease-in-out;
 }
@@ -22,4 +29,103 @@
     transform: scale(0.98);
     background-color: #005ecb;
     border-color: #005ecb;
+}
+
+
+/* ==========================================
+   Home Link Component Styles
+   ========================================== */
+
+.mwl-target-icon {
+    display: inline-block;
+    margin: 0 3px;
+    opacity: 0.5;
+    color: var(--target-color, white);
+    width: 20px;
+    height: 20px;
+}
+
+.mwl-target-text {
+    color: var(--target-color, white);
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 14px;
+    margin: 0px 3px;
+    opacity: 1;
+    text-decoration-skip-ink: none;
+}
+
+.mwl-target-button {
+    -webkit-box-align: center;
+    align-items: center;
+    background: none;
+    border: none;
+    cursor: pointer;
+    display: inline-flex;
+    height: 21px;
+    margin: 0px 9px;
+    padding: 0px;
+    white-space: nowrap;
+    text-decoration-skip-ink: none;
+    color: rgb(255, 255, 255);
+}
+
+.mwl-bar-divider {
+    background-color: var(--target-color, white);
+    height: 12px;
+    margin: 0px;
+    opacity: 0.5;
+    width: 1px;
+}
+
+.mwl-target-button-div {
+    height: 21px;
+}
+
+
+/* ==========================================
+   Account Helper Component Styles
+   ========================================== */
+
+.mwl-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.mwl-separator {
+    display: flex;
+    align-items: center;
+    text-align: center;
+    color: #999;
+    font-size: 12px;
+    margin: 20px 0;
+    width: 100%;
+}
+
+.mwl-separator-line {
+    flex: 1;
+    border-bottom: 1px solid #ccc;
+}
+
+.mwl-separator-line.left {
+    margin-right: 10px;
+}
+
+.mwl-separator-line.right {
+    margin-left: 10px;
+}
+
+.mwl-helper-button {
+    padding: 10px 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: #f7f7f7;
+    cursor: pointer;
+    font-weight: bold;
+    color: #333;
+    display: flex;
+    align-items: center;
+    gap: 8px;
 }

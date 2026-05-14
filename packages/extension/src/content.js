@@ -3,8 +3,8 @@
 //! Change it so it has nothing else
 //! all added elements include .myworkday-element
 const ELEMENT_TAG = "myWorkday-element"
-let site_color = '#005cb9';
-let site_bgColor = '#ffffff';
+// Get the site theme
+const SITE_THEME = { color: "#005cb9", bg: "#ffffff" };
 
 
 import { AddLinkToHome, AddSaveButton } from "./files/dom";
@@ -22,13 +22,13 @@ import { addSite, startNavigationListener } from "./files/sitelog";
 
 function initializeGlobalTheme() {
     const brandElement = document.querySelector('[data-automation-id="utilityButtonBar"]');
-    
+
     if (brandElement) {
         const styles = window.getComputedStyle(brandElement);
-        
-        site_color = styles.color;           
-        site_bgColor = styles.backgroundColor; 
-        
+
+        site_color = styles.color;
+        site_bgColor = styles.backgroundColor;
+
         // Saving them globally to the :root (html element) as CSS variables
         // document.documentElement.style.setProperty('--ext-brand-color', site_color);
         // document.documentElement.style.setProperty('--ext-brand-bg', site_bgColor);
@@ -36,7 +36,7 @@ function initializeGlobalTheme() {
     }
 }
 
-initializeGlobalTheme();
+// initializeGlobalTheme();
 
 //-! need a lot better error handling between connections
 
@@ -256,9 +256,11 @@ const jobDetailsObserver = new MutationObserver(() => {
 
 
     // Works on both the details page and postings page
-    const jobDetails = document.querySelector('[data-automation-id="jobDetails"]') 
-    || document.querySelector('[data-automation-id="jobPostingPage"]')
-    || document.querySelector('[data-automation-id="jobPostingStickyWrapper"]');
+    const jobDetails = document.querySelector('[data-automation-id="jobDetails"]')
+        || document.querySelector('[data-automation-id="jobPostingPage"]')
+        || document.querySelector('[data-automation-id="jobPostingStickyWrapper"]');
+    //! fix sticky
+    //! fix hover
 
     if (jobDetails && !targetelemnt) {
 
@@ -267,21 +269,29 @@ const jobDetailsObserver = new MutationObserver(() => {
 
         if (applyButton) {
 
+            const styles = window.getComputedStyle(applyButton);
+            const theme = {
+                bg: styles.backgroundColor,
+                color: styles.color,
+
+                height: styles.height,
+                padding: styles.padding,
+                opacity: styles.opacity,
+                lineHeight: styles.lineHeight
+            };
+
             const parent = applyButton.parentElement;
             parent.style.position = 'relative';
 
             const rect = applyButton.getBoundingClientRect();
 
-    
             const newDiv = document.createElement('div');
             newDiv.className = ELEMENT_TAG;
             newDiv.style.position = 'absolute';
-            newDiv.style.left = (rect.width + 12) + 'px'; 
-            newDiv.style.color = site_color;
-            newDiv.style.backgroundColor = site_bgColor;
+            newDiv.style.left = (rect.width + 12) + 'px';
             newDiv.style.top = '0';
-            AddSaveButton(newDiv, id);
-            console.log('this is the new div', newDiv)
+
+            AddSaveButton(newDiv, id, SITE_THEME);
             applyButton.insertAdjacentElement('afterend', newDiv);
         }
     }

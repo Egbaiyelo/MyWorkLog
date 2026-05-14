@@ -1,17 +1,5 @@
 
-// 
-function getCompanyKey() {
-    // e.g. "bmo.wd3.myworkdayjobs.com" but first part
-    return window.location.hostname.split('.')[0];
-}
-
-// Gets the unique identifier for the current job posting based on the URL
-function getJobId() {
-    // Spliting the URL path to get the unique reference string (e.g., 'Associate-Banker_R123456789')
-    const pathParts = window.location.pathname.split('/');
-    return pathParts[pathParts.length - 1] || window.location.href;
-}
-
+import { getCompanyKey, getJobId } from "./sitelog";
 
 /**
  * returns true if the job ID has been saved to storage
@@ -24,7 +12,7 @@ export function isJobSaved(callback) {
     chrome.storage.local.get([company], (result) => {
         const companyData = result[company] || {};
         const savedMap = companyData.saved || {};
-        
+
         callback(!!savedMap[jobId]);
     });
 }
@@ -95,5 +83,57 @@ export function removeFromSaved(successCallback) {
                 if (successCallback) successCallback();
             });
         }
+    });
+}
+
+
+// Extract Tenant and SiteId dynamically from the URL path
+function getWorkdayRouteMetadata() {
+    const origin = window.location.origin; // e.g., "https://bmo.wd3.myworkdayjobs.com"
+    const segments = window.location.href.split('/');
+    
+    // Filter out en-US and all that
+    const pathSegments = segments.filter(seg => 
+        seg && !/^[a-z]{2}-[A-Z]{2}$/.test(seg) && !seg.includes('http') && !seg.includes('.')
+    );
+
+    // e.g. domain/en-US/SiteId/job...
+    const tenant = getCompanyKey();
+    const siteId = pathSegments[0] || 'External';
+
+    return {
+        siteUrl: segments.slice(0, 5).join('/'), 
+        apiUrl: `${origin}/wday/cxs/${tenant}/${siteId}/` 
+    };
+}
+
+
+/**
+ * Log visited site
+ * //! add description and add company to the companysite list
+ */
+export function syncCompanySiteData() {
+    const company = getCompanyKey();
+    const meta = getWorkdayRouteMetadata();
+
+    chrome.storage.local.get([company], (result) => {
+        const companyData = result[company] || { saved: {} };
+        const oldUrl = companyData.siteUrl;
+
+        //! necessary?
+        // Alerting background script if the company root paths modified
+        if (!oldUrl) {
+            chrome.runtime.sendMessage({ action: "addSite", data: { companyName: company, url: meta.siteUrl } });
+        } else if (oldUrl !== meta.siteUrl) {
+            chrome.runtime.sendMessage({ action: "siteChange", data: { companyName: company, url: meta.siteUrl, oldUrl } });
+        }
+
+        // Update
+        companyData.siteUrl = meta.siteUrl;
+        companyData.apiUrl = meta.apiUrl;
+
+        chrome.storage.local.set({ [company]: companyData }, () => {
+            console.log(`[Storage Sync] Synced ${company} configuration.`);
+        });
     });
 }

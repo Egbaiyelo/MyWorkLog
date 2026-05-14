@@ -7,6 +7,7 @@ const ELEMENT_TAG = "myWorkday-element"
 const SITE_THEME = { color: "#005cb9", bg: "#ffffff" };
 
 
+import { syncCompanySiteData } from "./files/data";
 import { AddLinkToHome, AddSaveButton } from "./files/dom";
 // import { signIn, createAccount } from "./files/auth"
 import { addSite, startNavigationListener } from "./files/sitelog";
@@ -156,6 +157,8 @@ function siteStatus() {
     }, 5000);
 }
 
+//! temp for now needs to be in observer
+syncCompanySiteData()
 
 //#endregion
 
@@ -249,51 +252,52 @@ utilityBarObserver.observe(document.body, {
 //! get the page from the url then use mutation observers
 const jobDetailsObserver = new MutationObserver(() => {
 
-    const id = 'myWorkday-saveBtn'
-    const targetelemnt = document.getElementById(id);
+    const className = 'myWorkday-saveBtn'
+    const targetelement = document.getElementById(className);
     // const utilButtonBar = document.querySelector('[data-automation-id="utilityButtonBar"]');
     // site_color = getComputedStyle(utilButtonBar).color;
 
-
     // Works on both the details page and postings page
     const jobDetails = document.querySelector('[data-automation-id="jobDetails"]')
-        || document.querySelector('[data-automation-id="jobPostingPage"]')
-        || document.querySelector('[data-automation-id="jobPostingStickyWrapper"]');
-    //! fix sticky
+        || document.querySelector('[data-automation-id="jobPostingPage"]');
+
+    const stickyWrapper = document.querySelector('[data-automation-id="jobPostingStickyWrapper"]');
     //! fix hover
 
-    if (jobDetails && !targetelemnt) {
+    if ((jobDetails && !jobDetails.querySelector(`.${className}`)) || (stickyWrapper && !stickyWrapper.querySelector(`.${className}`))) {
 
         //! Maybe a better way to get the button?
-        const applyButton = document.querySelector('a[href*="/apply"]');
+        const applyButton = document.querySelector('a[href*="/apply"]') 
+        || document.querySelector('[data-automation-id="adventureButton"]');
 
-        if (applyButton) {
+        if (!applyButton) return
 
-            const styles = window.getComputedStyle(applyButton);
-            const theme = {
-                bg: styles.backgroundColor,
-                color: styles.color,
+        const styles = window.getComputedStyle(applyButton);
+        const theme = {
+            bg: styles.backgroundColor,
+            color: styles.color,
 
-                height: styles.height,
-                padding: styles.padding,
-                opacity: styles.opacity,
-                lineHeight: styles.lineHeight
-            };
+            //! do i need these
+            height: styles.height,
+            padding: styles.padding,
+            opacity: styles.opacity,
+            lineHeight: styles.lineHeight
+        };
 
-            const parent = applyButton.parentElement;
-            parent.style.position = 'relative';
+        const parent = applyButton.parentElement;
+        parent.style.position = 'relative';
 
-            const rect = applyButton.getBoundingClientRect();
+        const rect = applyButton.getBoundingClientRect();
 
-            const newDiv = document.createElement('div');
-            newDiv.className = ELEMENT_TAG;
-            newDiv.style.position = 'absolute';
-            newDiv.style.left = (rect.width + 12) + 'px';
-            newDiv.style.top = '0';
+        const newDiv = document.createElement('div');
+        newDiv.className = ELEMENT_TAG;
+        newDiv.style.position = 'absolute';
+        newDiv.style.left = (rect.width + 12) + 'px';
+        newDiv.style.top = '0';
 
-            AddSaveButton(newDiv, id, SITE_THEME);
-            applyButton.insertAdjacentElement('afterend', newDiv);
-        }
+        //! maybe find way to remove theme and classname like maybe class is made up here for the container instead and savebutton has its own class internally
+        AddSaveButton(newDiv, className, SITE_THEME);
+        applyButton.insertAdjacentElement('afterend', newDiv);        
     }
 })
 

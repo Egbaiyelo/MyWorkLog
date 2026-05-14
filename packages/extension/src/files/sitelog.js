@@ -105,14 +105,10 @@ export function checkApplicationTable() {
 //- full table not loaded in if viewport small
 function extractJobDetails(appSection) {
 
-    console.log('@@@@@@@@@', appSection)
-
     const tpanels = appSection.querySelectorAll('[role="tabpanel"]');
     const activeJobs = tpanels[0].querySelector('tbody') || null;   // not initally hidden
     const inactiveJobs = tpanels[1].querySelector('tbody') || null; // a tbody that is initally hidden
     // Or maybe use .hidden?
-
-    console.log("@@@@@@@@@@@inactive", activeJobs, inactiveJobs)
 
     chrome.storage.local.get({ jobs: {} }, result => {
 
@@ -182,4 +178,23 @@ export function startNavigationListener() {
         // console.log("got ", url);
         handleNavigation(url);
     });
+}
+
+
+
+
+///////////////////// AFTER
+
+//! might move these to data and move nav listener to content.js
+// 
+export function getCompanyKey() {
+    // e.g. "bmo.wd3.myworkdayjobs.com" but first part
+    return window.location.hostname.split('.')[0];
+}
+
+// Gets the unique identifier for the current job posting based on the URL
+export function getJobId() {
+    // Spliting the URL path to get the unique reference string (e.g., 'Associate-Banker_R123456789')
+    const pathParts = window.location.pathname.split('/');
+    return pathParts[pathParts.length - 1] || window.location.href;
 }
